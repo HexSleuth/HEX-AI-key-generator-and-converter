@@ -103,12 +103,13 @@ a:hover{text-decoration:underline}
 .mini:active{transform:scale(.94)}
 .mini-close{background:var(--primary);color:var(--primary-content);border-color:transparent}
 
-input[type=text],input[type=number],input[type=password],textarea,select{
+input[type=text],input[type=number],input[type=password],input[type=date],textarea,select{
   width:100%;background:var(--base-100);color:var(--base-content);
   border:1px solid var(--line-strong);border-radius:12px;
   padding:11px 12px;font:inherit;font-size:14px;outline:none;
   transition:border-color .15s ease,box-shadow .15s ease;
 }
+input[type=date]{font-family:var(--mono);color-scheme:dark}
 textarea{font-family:var(--mono);font-size:12.5px;line-height:1.55;resize:vertical}
 input:focus,textarea:focus,select:focus{
   border-color:var(--primary);
@@ -151,7 +152,7 @@ label.lbl{display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;te
   box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 10px 30px rgba(0,0,0,.25);
 }
 .card + .card{margin-top:12px}
-.card h2{margin:0 0 6px;font-size:16.5px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.card h2{margin:0 0 6px;font-size:16.5px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .card h2 i{color:var(--primary)}
 .card h3{margin:16px 0 6px;font-size:13.5px;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
 .card h3 i{color:var(--accent)}
@@ -455,6 +456,249 @@ ul.list b,ul.list strong{color:var(--base-content)}
 .hb-swap-row .mini{
   width:46px;height:36px;border-radius:11px;
 }
+
+/* ============================================================
+   TOMILLIS — Timestamp ⇄ Milliseconds ⇄ Hex
+   ============================================================ */
+.tomillis-clock{
+  background:#05080a;
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  border-radius:12px;
+  padding:14px 16px;
+  margin:4px 0 14px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:inset 0 0 40px rgba(103,203,160,.05);
+}
+.tomillis-clock::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,
+    rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+    rgba(103,203,160,.035) 3px, rgba(0,0,0,0) 4px);
+}
+.tomillis-clock-inner{position:relative;z-index:1}
+.tomillis-clock .tomillis-label{
+  display:block;
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:color-mix(in srgb,var(--accent) 65%,transparent);
+  font-weight:800;margin-bottom:5px;
+}
+.tomillis-clock .tomillis-value{
+  font-family:var(--mono);
+  font-size:clamp(18px,4.2vw,26px);
+  font-weight:800;
+  letter-spacing:.04em;
+  color:var(--accent);
+  text-shadow:0 0 12px color-mix(in srgb,var(--accent) 55%,transparent),
+              0 0 30px color-mix(in srgb,var(--accent) 25%,transparent);
+  font-variant-numeric:tabular-nums;
+  word-break:break-all;
+}
+.tomillis-result{
+  background:var(--base-100);border:1px solid var(--line);
+  border-radius:12px;padding:12px 14px;margin-top:10px;
+  font-family:var(--mono);font-size:13px;line-height:1.6;
+  word-break:break-all;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+}
+.tomillis-result.placeholder{color:var(--muted);font-style:italic}
+.tomillis-result .t-ms{color:var(--base-content);font-weight:700}
+.tomillis-result .t-lbl{color:var(--muted);font-weight:700}
+.tomillis-result .t-hex{
+  color:var(--accent);font-weight:800;
+  text-shadow:0 0 10px color-mix(in srgb,var(--accent) 45%,transparent);
+}
+.tomillis-kbd{
+  display:inline-block;padding:1px 6px;border:1px solid var(--line);
+  border-radius:6px;background:var(--base-300);
+  font-size:11px;color:var(--muted);font-weight:700;
+}
+
+/* ============================================================
+   COLOR PICKER — integrated in AI Gen panel
+   ============================================================ */
+.cp-preview{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:18px 10px;
+  border-radius:12px;
+  background:var(--base-100);
+  border:1px solid var(--line);
+  margin:10px 0 12px;
+}
+.cp-swatch-wrap{
+  width:110px;height:110px;border-radius:50%;padding:4px;
+  background:var(--line-strong);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
+}
+.cp-swatch{
+  width:100%;height:100%;border-radius:50%;
+  background:#33b5e5;
+  box-shadow:0 10px 24px rgba(0,0,0,.35),inset 0 0 0 3px rgba(255,255,255,.4);
+  transition:background-color .35s ease;
+}
+.cp-hex{
+  font-family:var(--mono);
+  font-size:26px;font-weight:800;letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+  cursor:pointer;user-select:none;
+  padding:2px 10px;border-radius:10px;
+  transition:background-color .15s ease,transform .1s ease;
+  color:var(--base-content);
+}
+.cp-hex:hover{background:rgba(127,127,127,.18)}
+.cp-hex:active{transform:scale(.97)}
+.cp-rgb{
+  font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;
+}
+.cp-live-badge{
+  display:inline-block;padding:3px 9px;border-radius:999px;
+  font-size:10px;font-weight:700;letter-spacing:.12em;
+  background:color-mix(in srgb,var(--accent) 25%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+  color:var(--accent);
+  opacity:0;transform:translateY(-3px) scale(.9);
+  transition:opacity .2s ease,transform .2s ease;
+  pointer-events:none;
+  margin-left:8px;
+}
+.cp-live-badge.show{opacity:1;transform:none}
+
+/* Dialog */
+.cp-backdrop{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  background:rgba(0,0,0,.58);
+  visibility:hidden;opacity:0;
+  transition:opacity .2s ease,visibility .2s ease;
+}
+.cp-backdrop.open{visibility:visible;opacity:1}
+
+.cp-dialog{
+  width:min(430px,100%);
+  max-height:min(760px,calc(100vh - 32px));
+  max-height:min(760px,calc(100dvh - 32px));
+  display:flex;flex-direction:column;
+  background:#1f2124;
+  color:#eceff1;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 26px 70px rgba(0,0,0,.55);
+  transform:scale(.93) translateY(10px);
+  transition:transform .24s cubic-bezier(.2,.9,.3,1.15);
+}
+.cp-backdrop.open .cp-dialog{transform:none}
+
+.cp-dialog-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;padding:14px 14px 14px 20px;
+  font-size:15px;font-weight:600;letter-spacing:.02em;
+  background:#26282c;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.cp-icon-btn{
+  appearance:none;border:0;background:transparent;
+  color:#b0b6bd;font-size:17px;line-height:1;
+  width:34px;height:34px;border-radius:50%;
+  cursor:pointer;
+  transition:background-color .15s ease,color .15s ease;
+}
+.cp-icon-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+
+.cp-dialog-body{
+  padding:16px;overflow-y:auto;flex:1 1 auto;
+  display:flex;flex-direction:column;gap:14px;
+}
+.cp-dialog-body canvas{display:block;touch-action:none;cursor:crosshair}
+
+.cp-sv-canvas{
+  width:100%;height:172px;border-radius:12px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+}
+.cp-slider-row{display:flex;align-items:center;gap:12px}
+.cp-slider-label{
+  width:46px;flex:0 0 auto;font-size:12px;
+  letter-spacing:.06em;text-transform:uppercase;color:#9aa1a8;
+}
+.cp-slider-canvas{
+  flex:1 1 auto;width:100%;height:26px;border-radius:13px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+}
+.cp-preview-row{display:flex;gap:12px}
+.cp-preview-item{
+  flex:1 1 0;display:flex;flex-direction:column;gap:6px;
+  font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#9aa1a8;
+}
+.cp-checker{
+  height:46px;border-radius:10px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+  background-color:#fff;
+  background-image:
+    linear-gradient(45deg,#c8ccd0 25%,transparent 25%),
+    linear-gradient(-45deg,#c8ccd0 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#c8ccd0 75%),
+    linear-gradient(-45deg,transparent 75%,#c8ccd0 75%);
+  background-size:14px 14px;
+  background-position:0 0,0 7px,7px -7px,-7px 0;
+}
+.cp-preview-fill{width:100%;height:100%;transition:background-color .18s ease}
+.cp-hex-row{
+  display:flex;align-items:center;gap:10px;
+  background:#26282c;border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:6px 12px;
+}
+.cp-hex-row label{
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#9aa1a8;
+}
+.cp-hex-input{
+  flex:1 1 auto;min-width:0;
+  background:transparent;border:0;outline:none;
+  color:#fff;font:inherit;font-size:16px;font-weight:600;
+  letter-spacing:.06em;font-variant-numeric:tabular-nums;
+  padding:8px 0;text-transform:uppercase;
+}
+.cp-hex-input.invalid{color:#ff7676}
+.cp-presets{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:8px;
+}
+.cp-preset{
+  appearance:none;border:0;padding:0;
+  aspect-ratio:1 / 1;border-radius:8px;cursor:pointer;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.cp-preset:hover{transform:scale(1.12)}
+.cp-preset:active{transform:scale(.94)}
+.cp-preset.selected{box-shadow:0 0 0 2px #1f2124,0 0 0 4px #6ec1ff}
+
+.cp-dialog-actions{
+  display:flex;justify-content:flex-end;gap:10px;
+  padding:12px 16px 16px;
+  background:#1b1d20;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.cp-btn{
+  appearance:none;border:0;cursor:pointer;font:inherit;
+  font-weight:600;font-size:15px;padding:13px 26px;
+  border-radius:999px;
+  transition:transform .12s ease,filter .18s ease,background-color .18s ease;
+  user-select:none;
+}
+.cp-btn:active{transform:scale(.96)}
+.cp-btn.ghost{
+  background:transparent;color:#b8bec5;padding:11px 20px;
+}
+.cp-btn.ghost:hover{background:rgba(255,255,255,.08);color:#fff}
+.cp-btn.confirm{
+  background:#2f81f7;color:#fff;padding:11px 24px;
+  box-shadow:0 6px 18px rgba(47,129,247,.35);
+}
+.cp-btn.confirm:hover{filter:brightness(1.1)}
+
+@media(max-width:380px){
+  .cp-presets{grid-template-columns:repeat(6,1fr)}
+  .cp-hex{font-size:22px}
+}
 </style>
 </head>
 <body>
@@ -495,8 +739,15 @@ ul.list b,ul.list strong{color:var(--base-content)}
   <main>
     <!-- ============================================================
          PANEL: AI GENERATOR
+         Order:
+           1. HEX AI Key Generator
+           2. Color Picker          ← NEW
+           3. Free Coding Model Providers
+           4. aiOut results
          ============================================================ -->
     <section class="panel active" id="panel-ai">
+
+      <!-- ---- HEX AI Key Generator ---- -->
       <div class="card">
         <h2><i class="fa-solid fa-microchip"></i>HEX AI Key Generator</h2>
         <p class="lead">
@@ -531,7 +782,34 @@ ul.list b,ul.list strong{color:var(--base-content)}
         <div class="ai-log" id="aiLog" hidden></div>
       </div>
 
-      <!-- ============ FREE CODING MODEL PROVIDERS ============ -->
+      <!-- ============ COLOR PICKER (NEW — integrated into AI Gen) ============ -->
+      <div class="card" id="cpCard">
+        <h2>
+          <i class="fa-solid fa-palette"></i> Color Picker
+          <span class="cp-live-badge" id="cpLiveBadge">Preview</span>
+        </h2>
+        <p class="lead">
+          Android-style HSV color picker. Tap the swatch to open the dialog —
+          the preview updates live, and <b>OK</b> commits it. Reuses the
+          page theme and system toast.
+        </p>
+
+        <div class="cp-preview">
+          <div class="cp-swatch-wrap">
+            <div class="cp-swatch" id="cpSwatch"></div>
+          </div>
+          <div class="cp-hex" id="cpHex" title="Tap to copy">#33B5E5</div>
+          <div class="cp-rgb" id="cpRgb">rgb(51, 181, 229)</div>
+        </div>
+
+        <div class="btns">
+          <button class="btn btn-primary" id="cpOpenBtn" type="button">
+            <i class="fa-solid fa-eye-dropper"></i> Pick a Color
+          </button>
+        </div>
+      </div>
+
+      <!-- ---- FREE CODING MODEL PROVIDERS ---- -->
       <div class="card">
         <h2><i class="fa-solid fa-server"></i> Free Coding Model Providers</h2>
         <p class="lead">
@@ -556,18 +834,10 @@ ul.list b,ul.list strong{color:var(--base-content)}
 
     <!-- ============================================================
          PANEL: CONVERTER
-         Order:
-           1. Unix Epoch Clock (classic terminal style)
-           2. Unix Hex Timestamp Converter
-           3. Decimal to Hexadecimal Converter
-           4. Hex to Binary Converter   ← NEW
-           5. Current Epoch Time in Code
-           6. Multi-Format Encoder / Decoder
-           7. Chosen Method — Source
          ============================================================ -->
     <section class="panel" id="panel-convert">
 
-      <!-- ============ 1. UNIX EPOCH CLOCK (classic terminal style) ============ -->
+      <!-- ============ 1. UNIX EPOCH CLOCK ============ -->
       <div class="card">
         <h2><i class="fa-regular fa-clock"></i> Unix Epoch Clock</h2>
         <p class="lead">
@@ -622,7 +892,42 @@ ul.list b,ul.list strong{color:var(--base-content)}
         </div>
       </div>
 
-      <!-- ============ 2. UNIX HEX TIMESTAMP CONVERTER ============ -->
+      <!-- ============ 2. TOMILLIS ============ -->
+      <div class="card">
+        <h2><i class="fa-regular fa-clock"></i> Tomillis — Timestamp ⇄ Milliseconds ⇄ Hex</h2>
+        <p class="lead">
+          Convert a date into Unix milliseconds and hex. Ported from the Tomillis Android app —
+          the same pick-a-date → Convert → Copy workflow, running entirely client-side.
+        </p>
+
+        <div class="tomillis-clock">
+          <div class="tomillis-clock-inner">
+            <span class="tomillis-label">Current timestamp in Tomillis</span>
+            <div id="tomillisClock" class="tomillis-value">—</div>
+          </div>
+        </div>
+
+        <label class="lbl" for="tomillisDate">Date (yyyy-MM-dd)</label>
+        <input type="date" id="tomillisDate" aria-label="Date (yyyy-MM-dd)">
+
+        <div class="btns">
+          <button class="btn btn-primary" id="tomillisBtnConvert" title="Convert (Buttonss)">
+            <i class="fa-solid fa-calculator"></i> Convert
+          </button>
+          <button class="btn" id="tomillisBtnMs" title="Copy milliseconds (MilliSec)">
+            <i class="fa-regular fa-copy"></i> Copy ms
+          </button>
+          <button class="btn" id="tomillisBtnHex" title="Copy hex (HexId)">
+            <i class="fa-regular fa-copy"></i> Copy hex
+          </button>
+        </div>
+
+        <div id="tomillisResult" class="tomillis-result placeholder">
+          Pick a date and press <span class="tomillis-kbd">Convert</span>.
+        </div>
+      </div>
+
+      <!-- ============ 3. UNIX HEX TIMESTAMP CONVERTER ============ -->
       <div class="card">
         <h2><i class="fa-solid fa-hashtag"></i> Unix Hex Timestamp Converter</h2>
         <p class="lead">
@@ -663,7 +968,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
         </div>
       </div>
 
-      <!-- ============ 3. DECIMAL TO HEXADECIMAL CONVERTER ============ -->
+      <!-- ============ 4. DECIMAL TO HEXADECIMAL CONVERTER ============ -->
       <div class="card">
         <h2><i class="fa-solid fa-arrow-right-arrow-left"></i> Decimal to Hexadecimal Converter</h2>
         <p class="lead">
@@ -709,13 +1014,9 @@ ul.list b,ul.list strong{color:var(--base-content)}
           </button>
         </div>
 
-        <!-- Step-by-step division table -->
         <div id="d2hSteps"></div>
-
-        <!-- Endianness view -->
         <div id="d2hEndian"></div>
 
-        <!-- Conversion table -->
         <div class="out" style="margin-top:12px">
           <div class="out-head">
             <span class="out-label">Decimal → Hex conversion table</span>
@@ -760,7 +1061,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           </div>
         </div>
 
-        <!-- Explanation: Decimal -->
         <h3><i class="fa-solid fa-hashtag"></i> Decimal</h3>
         <p class="small muted">
           Decimal number is a number expressed in the base 10 numeral system. Decimal number's
@@ -772,7 +1072,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <code>653₁₀ = 6×10² + 5×10¹ + 3×10⁰</code>
         </p>
 
-        <!-- Explanation: Hexadecimal -->
         <h3><i class="fa-solid fa-hashtag"></i> Hexadecimal</h3>
         <p class="small muted">
           Hexadecimal number is a number expressed in the base 16 numeral system. Hexadecimal
@@ -784,7 +1083,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <code>62C₁₆ = 6×16² + 2×16¹ + 12×16⁰ = 1580₁₀</code>
         </p>
 
-        <!-- Explanation: How to convert -->
         <h3><i class="fa-solid fa-list-ol"></i> How to convert from decimal to hex</h3>
         <div class="out">
           <div class="out-head">
@@ -848,7 +1146,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
         </p>
       </div>
 
-      <!-- ============ 4. HEX TO BINARY CONVERTER (NEW) ============ -->
+      <!-- ============ 5. HEX TO BINARY CONVERTER ============ -->
       <div class="card">
         <h2><i class="fa-solid fa-right-left"></i> Hex to Binary Converter</h2>
         <p class="lead">
@@ -857,7 +1155,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           instantly with digit grouping and a step-by-step calculation breakdown.
         </p>
 
-        <!-- From / To dropdowns -->
         <div class="grid2">
           <div>
             <label class="lbl" for="hbFrom">From</label>
@@ -881,7 +1178,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           </div>
         </div>
 
-        <!-- Input -->
         <div class="hb-label-row">
           <label class="lbl" for="hbInput">Enter hex number</label>
           <span class="hb-base" id="hbFromBase">16</span>
@@ -890,7 +1186,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <input type="text" id="hbInput" value="1D8A" placeholder="Enter hex number" spellcheck="false" autocomplete="off">
         </div>
 
-        <!-- Result -->
         <div class="hb-label-row">
           <span class="lbl">Binary result</span>
           <span class="hb-base" id="hbToBase">2</span>
@@ -900,7 +1195,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <button class="mini" data-copy="hbResult" title="Copy"><i class="fa-regular fa-copy"></i></button>
         </div>
 
-        <!-- The four derived numbers -->
         <div class="hb-label-row">
           <span class="lbl">Binary number</span>
           <span class="hb-base">2</span>
@@ -933,7 +1227,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <pre class="out-val" id="hbHexVal">—</pre>
         </div>
 
-        <!-- Digit grouping -->
         <label class="lbl" for="hbGroup">Digit grouping</label>
         <select id="hbGroup">
           <option value="0">None</option>
@@ -942,7 +1235,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <option value="16">16 digits</option>
         </select>
 
-        <!-- Calculation -->
         <label class="lbl" for="hbCalc">Calculation</label>
         <div class="out">
           <div class="out-head">
@@ -954,7 +1246,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <pre class="out-val" id="hbCalc">—</pre>
         </div>
 
-        <!-- Convert / Reset / Swap -->
         <div class="btns">
           <button class="btn btn-primary btn-sm" id="hbConvert">
             <i class="fa-solid fa-calculator"></i> Convert
@@ -964,7 +1255,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           </button>
         </div>
 
-        <!-- Large swap row -->
         <div class="hb-swap-row">
           <button class="mini" id="hbSwapBtn" title="Swap From and To" aria-label="Swap From and To">
             <i class="fa-solid fa-right-left"></i>
@@ -978,7 +1268,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
         </p>
       </div>
 
-      <!-- ============ 5. CURRENT EPOCH TIME IN CODE ============ -->
+      <!-- ============ 6. CURRENT EPOCH TIME IN CODE ============ -->
       <div class="card">
         <h2><i class="fa-solid fa-code"></i> Current Epoch Time in Code</h2>
         <p class="lead">
@@ -990,7 +1280,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
         <div id="epochCodeList"></div>
       </div>
 
-      <!-- ============ 6. MULTI-FORMAT ENCODER / DECODER ============ -->
+      <!-- ============ 7. MULTI-FORMAT ENCODER / DECODER ============ -->
       <div class="card">
         <h2><i class="fa-solid fa-arrows-rotate"></i> Multi-Format Encoder / Decoder</h2>
         <p class="lead">
@@ -1064,7 +1354,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
 
       <div class="results" id="cvOut"></div>
 
-      <!-- ============ 7. CODE OF THE CHOSEN METHOD ============ -->
+      <!-- ============ 8. CODE OF THE CHOSEN METHOD ============ -->
       <div class="card" id="cvCodeCard">
         <h3 style="margin-top:0"><i class="fa-solid fa-code"></i> Chosen Method — Source</h3>
         <p class="small muted" id="cvCodeDesc">Select a method to view its implementation.</p>
@@ -1232,7 +1522,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         </div>
       </div>
 
-      <!-- ============ CAPABILITY MATRIX ============ -->
       <div class="card" id="capCard">
         <h3 style="margin-top:0"><i class="fa-solid fa-list-check"></i> Runtime Capability Matrix</h3>
         <p class="small muted">
@@ -1466,6 +1755,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <li><b>Transport encodings</b> — Base32 (RFC 4648), Base64, Base85/ASCII85, URL percent-encoding and HTML entities.</li>
           <li><b>Language games</b> — Pig Latin with case preservation and a reverse parser.</li>
           <li><b>Unix Epoch Clock</b> — live seconds since 1970-01-01 UTC, with local, UTC, ISO 8601, millisecond and hex views.</li>
+          <li><b>Tomillis — Timestamp ⇄ Milliseconds ⇄ Hex</b> — pick a date and get Unix milliseconds plus a 64-bit unsigned hex representation (ported from the Tomillis Android app).</li>
           <li><b>Unix Hex Timestamp Converter</b> — bidirectional decimal ⇄ hexadecimal timestamp conversion with human-readable output.</li>
           <li><b>Decimal to Hexadecimal Converter</b> — step-by-step division-by-16 remainders, little-endian / big-endian byte views, scientific notation support, and a full conversion table.</li>
           <li><b>Hex to Binary Converter</b> — universal base converter between Binary / Decimal / Octal / Hexadecimal / Text, with digit grouping and a step-by-step calculation breakdown.</li>
@@ -1556,7 +1846,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
 
   <footer>
     <div><i class="fa-solid fa-key"></i> HEX AI Key Gen — HEX AI key generation, no API key required.</div>
-    <div>100% client-side · Web Crypto · Unix epoch clock</div>
+    <div>100% client-side · Web Crypto · Unix epoch clock · Tomillis · Color Picker</div>
   </footer>
 </div>
 
@@ -1612,6 +1902,55 @@ ul.list b,ul.list strong{color:var(--base-content)}
     </button>
   </div>
 </aside>
+
+<!-- ============================================================
+     COLOR PICKER DIALOG  (modal)
+     ============================================================ -->
+<div class="cp-backdrop" id="cpBackdrop" aria-hidden="true">
+  <div class="cp-dialog" role="dialog" aria-modal="true" aria-labelledby="cpDlgTitle">
+    <div class="cp-dialog-header">
+      <span id="cpDlgTitle">Choose a color</span>
+      <button class="cp-icon-btn" id="cpCloseX" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="cp-dialog-body">
+      <canvas id="cpSvCanvas" class="cp-sv-canvas" aria-label="Saturation and brightness"></canvas>
+
+      <div class="cp-slider-row">
+        <span class="cp-slider-label">Hue</span>
+        <canvas id="cpHueCanvas" class="cp-slider-canvas" aria-label="Hue"></canvas>
+      </div>
+
+      <div class="cp-slider-row">
+        <span class="cp-slider-label">Alpha</span>
+        <canvas id="cpAlphaCanvas" class="cp-slider-canvas" aria-label="Alpha"></canvas>
+      </div>
+
+      <div class="cp-preview-row">
+        <div class="cp-preview-item">
+          <div class="cp-checker"><div class="cp-preview-fill" id="cpOldSwatch"></div></div>
+          <span>Current</span>
+        </div>
+        <div class="cp-preview-item">
+          <div class="cp-checker"><div class="cp-preview-fill" id="cpNewSwatch"></div></div>
+          <span>New</span>
+        </div>
+      </div>
+
+      <div class="cp-hex-row">
+        <label for="cpHexInput">Hex</label>
+        <input id="cpHexInput" class="cp-hex-input" type="text" spellcheck="false" autocomplete="off"
+               autocapitalize="characters" maxlength="9" value="#33B5E5">
+      </div>
+
+      <div class="cp-presets" id="cpPresets"></div>
+    </div>
+
+    <div class="cp-dialog-actions">
+      <button class="cp-btn ghost" id="cpCancelBtn" type="button">Cancel</button>
+      <button class="cp-btn confirm" id="cpOkBtn" type="button">OK</button>
+    </div>
+  </div>
+</div>
 
 <div id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg">Copied</span></div>
 
@@ -2054,7 +2393,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                '\n-----END ' + label + '-----';
     }
 
-    /* ---------- Web Crypto helpers ---------- */
     async function genAesRaw(bits) {
         const key = await crypto.subtle.generateKey(
             { name: 'AES-GCM', length: bits }, true, ['encrypt', 'decrypt']
@@ -2110,14 +2448,13 @@ ul.list b,ul.list strong{color:var(--base-content)}
         };
     }
 
-    /* Try multiple export formats so new algorithms degrade gracefully */
     async function exportKeyBytes(key) {
         const formats = ['raw', 'raw-secret'];
         for (let i = 0; i < formats.length; i++) {
             try {
                 const buf = await crypto.subtle.exportKey(formats[i], key);
                 if (buf instanceof ArrayBuffer) return new Uint8Array(buf);
-            } catch (_) { /* try next */ }
+            } catch (_) {}
         }
         return null;
     }
@@ -2129,7 +2466,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
     }
 
     /* ============================================================
-       3. HASHING (MD5 + WebCrypto digests + HMAC + PBKDF2)
+       3. HASHING
        ============================================================ */
     function md5(input) {
         const msg = (typeof input === 'string')
@@ -2216,7 +2553,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return bytesToHex(new Uint8Array(buf));
     }
 
-    /* Modern XOF / SHA-3 digests need an algorithm object */
     async function modernDigest(algo, data) {
         const bytes = (typeof data === 'string')
             ? new TextEncoder().encode(data)
@@ -3064,10 +3400,9 @@ ul.list b,ul.list strong{color:var(--base-content)}
             try {
                 const res = SubtleCrypto.supports(operation, algorithm, extra || null);
                 if (typeof res === 'boolean') return res;
-            } catch (_) { /* fall through to probe */ }
+            } catch (_) {}
         }
 
-        // Fallback: actually attempt the operation
         try {
             if (operation === 'generateKey') {
                 if (algorithm === 'AES-GCM' || algorithm === 'AES-CBC' ||
@@ -3191,7 +3526,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         try {
             switch (action) {
 
-                /* -------- Classic symmetric -------- */
                 case 'aes128':
                 case 'aes192':
                 case 'aes256': {
@@ -3224,7 +3558,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- Modern AEAD + block modes -------- */
                 case 'aesctr':
                 case 'aeskw':
                 case 'aesocb':
@@ -3276,7 +3609,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- Key derivation -------- */
                 case 'hkdf256':
                 case 'hkdf512': {
                     const hashName = action === 'hkdf256' ? 'SHA-256' : 'SHA-512';
@@ -3339,7 +3671,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- MACs -------- */
                 case 'hmac256':
                 case 'hmac384':
                 case 'hmac512': {
@@ -3372,7 +3703,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- Secrets & salts -------- */
                 case 'secret': {
                     const hexSecret = bytesToHex(getRandomBytes(64));
                     blocks = [
@@ -3403,7 +3733,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- RSA variants -------- */
                 case 'rsa2048':
                 case 'rsa4096': {
                     const bits = action === 'rsa2048' ? 2048 : 4096;
@@ -3427,7 +3756,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- EC variants -------- */
                 case 'ecdsa':
                 case 'ecdsa521': {
                     const curve = action === 'ecdsa521' ? 'P-521' : 'P-256';
@@ -3451,7 +3779,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- Secure curves -------- */
                 case 'ed25519':
                 case 'ed448': {
                     const name = action === 'ed25519' ? 'Ed25519' : 'Ed448';
@@ -3502,7 +3829,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- Post-Quantum -------- */
                 case 'mlkem512':
                 case 'mlkem768':
                 case 'mlkem1024':
@@ -3533,7 +3859,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                             { label: name + ' private key (PKCS#8 PEM)', value: pemEncode(pkcs8, 'PRIVATE KEY') }
                         ];
 
-                        // Demonstrate encapsulation
                         try {
                             const enc = await crypto.subtle.encapsulateBits(
                                 { name: name }, kp.publicKey
@@ -3594,7 +3919,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                             { label: name + ' private key (PKCS#8 PEM)', value: pemEncode(pkcs8, 'PRIVATE KEY') }
                         ];
 
-                        // Demonstrate sign / verify
                         try {
                             const msg = new TextEncoder().encode('hello post-quantum world');
                             const sig = await crypto.subtle.sign(
@@ -3628,7 +3952,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     break;
                 }
 
-                /* -------- SSH / VPN / PGP -------- */
                 case 'ssh': {
                     blocks = [
                         { label: 'ssh-ed25519 (random blob — illustrative)', value: 'ssh-ed25519 ' + bytesToB64(getRandomBytes(51)) + ' keygen@local' },
@@ -4019,7 +4342,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
        13. CODEC ENGINE — 29 METHODS (100% LOCAL)
        ============================================================ */
 
-    /* ---------- byte helpers ---------- */
     function utf8Bytes(s)     { return new TextEncoder().encode(s); }
     function bytesToUtf8(b)   { return new TextDecoder().decode(b); }
 
@@ -4063,7 +4385,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Base32 (RFC 4648) ---------- */
     const B32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
     function base32Encode(str) {
@@ -4099,7 +4420,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return bytesToUtf8(new Uint8Array(out));
     }
 
-    /* ---------- Base64 ---------- */
     function base64Encode(str) {
         const bytes = utf8Bytes(str);
         let bin = '';
@@ -4114,7 +4434,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return bytesToUtf8(bytes);
     }
 
-    /* ---------- Base85 / ASCII85 ---------- */
     function base85Encode(str) {
         const bytes = utf8Bytes(str);
         let out = '';
@@ -4176,7 +4495,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return bytesToUtf8(new Uint8Array(out));
     }
 
-    /* ---------- Map inverter ---------- */
     function invertMap(m) {
         const r = {};
         Object.keys(m).forEach(function (k) {
@@ -4186,7 +4504,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return r;
     }
 
-    /* ---------- Upside-down ---------- */
     const UPSIDE_DOWN_MAP = {
         'a':'ɐ','b':'q','c':'ɔ','d':'p','e':'ǝ','f':'ɟ','g':'ƃ','h':'ɥ','i':'ᴉ','j':'ɾ',
         'k':'ʞ','l':'l','m':'ɯ','n':'u','o':'o','p':'d','q':'b','r':'ɹ','s':'s','t':'ʇ',
@@ -4217,7 +4534,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Superscript / Subscript ---------- */
     const SUPER_MAP = {
         'a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','f':'ᶠ','g':'ᵍ','h':'ʰ','i':'ⁱ','j':'ʲ',
         'k':'ᵏ','l':'ˡ','m':'ᵐ','n':'ⁿ','o':'ᵒ','p':'ᵖ','q':'ᑫ','r':'ʳ','s':'ˢ','t':'ᵗ',
@@ -4249,7 +4565,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Zalgo ---------- */
     const ZALGO_UP = ('\u0300\u0301\u0302\u0303\u0304\u0305\u0306\u0307\u0308\u0309' +
         '\u030A\u030B\u030C\u030D\u030E\u030F\u0310\u0311\u0312\u0313\u0314\u0315' +
         '\u031A\u031B\u031C\u031D\u031E\u031F\u0320\u0323\u0324\u0325\u0326\u0327' +
@@ -4299,7 +4614,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return String(s).replace(/[\u0300-\u036f\u1ab0-\u1aff\u1dc0-\u1dff\u20d0-\u20ff\ufe20-\ufe2f]/g, '');
     }
 
-    /* ---------- Braille ---------- */
     const BRAILLE_LETTERS = {
         'a':'⠁','b':'⠃','c':'⠉','d':'⠙','e':'⠑','f':'⠋','g':'⠛','h':'⠓','i':'⠊','j':'⠚',
         'k':'⠅','l':'⠇','m':'⠍','n':'⠝','o':'⠕','p':'⠏','q':'⠟','r':'⠗','s':'⠎','t':'⠞',
@@ -4359,7 +4673,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Wingdings ---------- */
     const WING_UPPER = ['✌','✍','✎','✏','✐','✑','✒','✓','✔','✕','✖','✗','✘',
                         '✙','✚','✛','✜','✝','✞','✟','✠','✡','✢','✣','✤','✥'];
     const WING_LOWER = ['✦','✧','✩','✪','✫','✬','✭','✮','✯','✰','✱','✲','✳',
@@ -4372,7 +4685,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
     for (let i = 0; i < 10; i++) WINGDINGS_MAP[String(i)] = WING_DIGITS[i];
     const WINGDINGS_REV = invertMap(WINGDINGS_MAP);
 
-    /* ---------- Leetspeak ---------- */
     const LEET_MAP = { 'a':'4','b':'8','e':'3','g':'6','i':'1','l':'1','o':'0','s':'5','t':'7','z':'2' };
     const LEET_MAP_ADV = { 'a':'@','b':'8','e':'3','g':'9','i':'!','l':'|','o':'0','s':'$','t':'7','z':'2' };
     const LEET_REV = invertMap(LEET_MAP);
@@ -4393,7 +4705,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- NATO ---------- */
     const NATO_MAP = {
         'A':'Alfa','B':'Bravo','C':'Charlie','D':'Delta','E':'Echo','F':'Foxtrot',
         'G':'Golf','H':'Hotel','I':'India','J':'Juliett','K':'Kilo','L':'Lima',
@@ -4450,7 +4761,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Morse ---------- */
     const MORSE_MAP = {
         'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....',
         'I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.',
@@ -4498,7 +4808,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return outWords.join(' ');
     }
 
-    /* ---------- Pig Latin ---------- */
     const VOWELS = 'aeiou';
 
     function pigLatinEncode(text) {
@@ -4556,7 +4865,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         });
     }
 
-    /* ---------- Caesar ---------- */
     function caesarShift(str, shift) {
         let out = '';
         const s = ((shift % 26) + 26) % 26;
@@ -4573,7 +4881,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Atbash ---------- */
     function atbash(str) {
         let out = '';
         for (const ch of String(str)) {
@@ -4589,7 +4896,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- Random case ---------- */
     function randomCase(str) {
         let out = '';
         for (const ch of String(str)) {
@@ -4602,7 +4908,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return out;
     }
 
-    /* ---------- HTML entities ---------- */
     function htmlEntityEncode(str) {
         let out = '';
         for (const ch of String(str)) {
@@ -4625,7 +4930,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
           .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');
     }
 
-    /* ---------- Unicode escapes ---------- */
     function unicodeEscapeEncode(str) {
         let out = '';
         for (let i = 0; i < str.length; i++) {
@@ -4646,7 +4950,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
             });
     }
 
-    /* ---------- Codec registry ---------- */
     const CODECS = [
         {
             id: 'ascii', label: 'ASCII (decimal codes)', group: 'Numeric',
@@ -5118,7 +5421,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
     const CODEC_BY_ID = {};
     CODECS.forEach(function (c) { CODEC_BY_ID[c.id] = c; });
 
-    /* ---------- Converter rendering ---------- */
     function renderConverterResults(items, title, subtitle) {
         const out = $('#cvOut');
         let html = '<div class="card">';
@@ -5355,7 +5657,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         tsHexToDecimal();
     }
 
-    /* ---------- Epoch code snippets ---------- */
     const EPOCH_SNIPPETS = [
         {
             id: 'javascript',
@@ -5578,7 +5879,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
        13c. DECIMAL TO HEXADECIMAL CONVERTER
        ============================================================ */
 
-    /* Static table text for the copy button */
     const D2H_TABLE_TEXT =
 'Decimal (base 10) | Hex (base 16)\n' +
 '--------------------------------\n' +
@@ -5628,14 +5928,12 @@ ul.list b,ul.list strong{color:var(--base-content)}
         const s = String(raw || '').trim();
         if (!s) return { ok: false, reason: 'empty' };
 
-        // Support e notation: 5.72e2 → 572
         if (/^-?\d+(\.\d+)?[eE][+-]?\d+$/.test(s)) {
             const n = Number(s);
             if (!isFinite(n)) return { ok: false, reason: 'not finite' };
             return { ok: true, value: n, source: s, notation: 'e-notation' };
         }
 
-        // Plain decimal
         if (/^-?\d+$/.test(s)) {
             const n = parseInt(s, 10);
             if (!isFinite(n)) return { ok: false, reason: 'not finite' };
@@ -5645,7 +5943,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
             return { ok: true, value: n, source: s, notation: 'plain' };
         }
 
-        // Decimal with fraction (truncate to integer)
         if (/^-?\d+\.\d+$/.test(s)) {
             const n = parseFloat(s);
             if (!isFinite(n)) return { ok: false, reason: 'not finite' };
@@ -5675,7 +5972,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
             return;
         }
 
-        // Build the division steps
         const steps = [];
         let q = absInt;
         let digit = 0;
@@ -5723,12 +6019,10 @@ ul.list b,ul.list strong{color:var(--base-content)}
         const container = document.getElementById('d2hEndian');
         if (!container) return;
 
-        // Pad to even number of hex digits
         let hexPadded = hexValue.toUpperCase();
         if (hexPadded.length % 2 !== 0) hexPadded = '0' + hexPadded;
         if (hexPadded.length === 0) hexPadded = '00';
 
-        // Cap to 16 hex chars (8 bytes) for display
         if (hexPadded.length > 16) {
             hexPadded = hexPadded.slice(-16);
         }
@@ -5812,9 +6106,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
     }
 
     /* ============================================================
-       13d. HEX TO BINARY CONVERTER (NEW)
-       Universal base converter between
-       Binary / Decimal / Octal / Hexadecimal / Text.
+       13d. HEX TO BINARY CONVERTER
        ============================================================ */
 
     const HB_DIGITS = '0123456789ABCDEF';
@@ -5862,13 +6154,10 @@ ul.list b,ul.list strong{color:var(--base-content)}
         }
     }
 
-    /* Parse a value in the given base into a BigInt.
-       Returns { ok, value (BigInt), source } or { ok:false, reason }. */
     function hbParseValue(raw, base) {
         const s = String(raw == null ? '' : raw);
 
         if (base === 'text') {
-            // Text → BigInt via UTF-8 bytes (big-endian)
             const bytes = new TextEncoder().encode(s);
             let n = 0n;
             for (let i = 0; i < bytes.length; i++) {
@@ -5880,21 +6169,17 @@ ul.list b,ul.list strong{color:var(--base-content)}
         const radix = hbBaseRadix(base);
         if (radix == null) return { ok: false, reason: 'unknown base' };
 
-        // Normalise input
         let body = s.trim();
         if (!body) return { ok: false, reason: 'empty input' };
 
-        // Strip common prefixes
         if (radix === 16 && /^0x/i.test(body)) body = body.replace(/^0x/i, '');
         else if (radix === 2 && /^0b/i.test(body)) body = body.replace(/^0b/i, '');
         else if (radix === 8 && /^0o/i.test(body)) body = body.replace(/^0o/i, '');
 
-        // Allow underscores and whitespace as visual separators
         body = body.replace(/[\s_]+/g, '');
 
         if (!body) return { ok: false, reason: 'empty input' };
 
-        // Support negative numbers
         let negative = false;
         if (body.charAt(0) === '-') {
             negative = true;
@@ -5922,7 +6207,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         return { ok: true, value: n, source: s };
     }
 
-    /* Format a BigInt into the given base. */
     function hbFormatValue(n, base) {
         if (base === 'text') {
             if (n === 0n) return '';
@@ -5979,12 +6263,10 @@ ul.list b,ul.list strong{color:var(--base-content)}
         lines.push('To base:    ' + hbBaseName(toBase));
         lines.push('');
 
-        // Show intermediate decimal
         const decStr = hbFormatValue(n, 'decimal');
         lines.push('Intermediate value (decimal): ' + decStr);
         lines.push('');
 
-        // Division-based steps for binary / octal / hex
         if (toBase === 'binary' || toBase === 'octal' || toBase === 'hex') {
             const radix = hbBaseRadix(toBase);
             const radixName = toBase === 'binary' ? 'Binary (2)'
@@ -6020,7 +6302,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
             lines.push('');
         }
 
-        // ASCII / text hint for the decimal representation
         if (toBase === 'text') {
             const t = hbFormatValue(n, 'text');
             lines.push('Text (UTF-8 big-endian bytes):');
@@ -6052,7 +6333,6 @@ ul.list b,ul.list strong{color:var(--base-content)}
         const raw      = inputEl ? inputEl.value : '';
         const groupSize = groupEl ? (parseInt(groupEl.value, 10) || 0) : 0;
 
-        // Update base indicators + placeholder
         const fromBaseEl = document.getElementById('hbFromBase');
         const toBaseEl   = document.getElementById('hbToBase');
         if (fromBaseEl) fromBaseEl.textContent = hbBaseIndicator(fromBase);
@@ -6087,21 +6367,17 @@ ul.list b,ul.list strong{color:var(--base-content)}
 
         const n = parsed.value;
 
-        // Compute all representations
         const binRaw = hbFormatValue(n, 'binary');
         const decRaw = hbFormatValue(n, 'decimal');
         const octRaw = hbFormatValue(n, 'octal');
         const hexRaw = hbFormatValue(n, 'hex');
         const txtRaw = hbFormatValue(n, 'text');
 
-        // Display values — grouping only applied to the target base if it
-        // is binary / octal / hex (numeric digit grouping makes no sense for text)
         const binDisp = hbGroupDigits(binRaw, (toBase === 'binary')  ? groupSize : 0) || '0';
         const decDisp = decRaw || '0';
         const octDisp = hbGroupDigits(octRaw, (toBase === 'octal')   ? groupSize : 0) || '0';
         const hexDisp = hbGroupDigits(hexRaw, (toBase === 'hex')     ? groupSize : 0) || '0';
 
-        // Main result
         let result = '';
         switch (toBase) {
             case 'binary':  result = hbGroupDigits(binRaw, groupSize) || '0'; break;
@@ -6118,11 +6394,9 @@ ul.list b,ul.list strong{color:var(--base-content)}
         if (octEl)    octEl.textContent = octDisp;
         if (hexEl)    hexEl.textContent = hexDisp;
 
-        // Calculation breakdown
         const calc = hbBuildCalculation(parsed, n, fromBase, toBase);
         if (calcEl) calcEl.textContent = calc;
 
-        // Copy store
         COPY_STORE.set('hbResult', result);
         COPY_STORE.set('hbCalcTxt', calc);
 
@@ -6153,11 +6427,9 @@ ul.list b,ul.list strong{color:var(--base-content)}
         const oldFrom = fromSel.value;
         const oldTo   = toSel.value;
 
-        // Swap From and To
         fromSel.value = oldTo;
         toSel.value   = oldFrom;
 
-        // Move current result into input for a natural round-trip
         const resultEl = document.getElementById('hbResultVal');
         if (resultEl && resultEl.textContent && resultEl.textContent !== '—') {
             inputEl.value = resultEl.textContent;
@@ -6166,6 +6438,579 @@ ul.list b,ul.list strong{color:var(--base-content)}
         runHexBinaryConvert();
         toast('Swapped ' + hbBaseName(oldFrom) + ' ⇄ ' + hbBaseName(oldTo), 'fa-right-left');
     }
+
+    /* ============================================================
+       13e. TOMILLIS — Timestamp ⇄ Milliseconds ⇄ Hex
+       ============================================================ */
+
+    const TOMILLIS_S = Object.freeze({
+        DATE_FORMAT:     "yyyy-MM-dd",
+        HEX_LABEL:       " Hex: ",
+        HEX_PREFIX:      "0x",
+        HEX_SUFFIX:      "L",
+        CLIPBOARD_LABEL: "ML^5 ",
+        TOAST_COPIED:    "Text Copied"
+    });
+
+    const TOMILLIS_R = Object.freeze({
+        layout_main: 2130968576,
+        tv_home:     2131165187,
+        tv_dateTime: 2131165184,
+        et_input:    2131165185,
+        dom: { input: "tomillisDate", home: "tomillisResult", clock: "tomillisClock" }
+    });
+
+    function tomillisToHexString(ms) {
+        return BigInt.asUintN(64, ms).toString(16).toUpperCase();
+    }
+
+    function tomillisMilliseconds(dateString) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateString || "");
+        if (!m) return 0n;
+        const y  = parseInt(m[1], 10);
+        const mo = parseInt(m[2], 10);
+        const d  = parseInt(m[3], 10);
+        const dt = new Date(y, mo - 1, d);
+        return BigInt(dt.getTime());
+    }
+
+    let tomillisClockTimer = null;
+
+    function tomillisTick() {
+        const n = new Date();
+        const p = x => String(x).padStart(2, "0");
+        const s =
+            n.getFullYear() + "-" + p(n.getMonth() + 1) + "-" + p(n.getDate()) + " " +
+            p(n.getHours()) + ":" + p(n.getMinutes()) + ":" + p(n.getSeconds());
+        const el = document.getElementById(TOMILLIS_R.dom.clock);
+        if (el) el.textContent = s;
+    }
+
+    function tomillisReadInput() {
+        const el = document.getElementById(TOMILLIS_R.dom.input);
+        return (el && el.value ? el.value : '').trim();
+    }
+
+    function tomillisEscapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+        }[c]));
+    }
+
+    function tomillisConvert() {
+        const home = document.getElementById(TOMILLIS_R.dom.home);
+        const input = tomillisReadInput();
+
+        if (!input) {
+            if (home) {
+                home.classList.add('placeholder');
+                home.textContent = 'Pick a date first.';
+            }
+            return;
+        }
+
+        const ms = tomillisMilliseconds(input);
+        const timee = ms.toString();
+        const hex = tomillisToHexString(ms);
+
+        if (home) {
+            home.classList.remove('placeholder');
+            home.innerHTML =
+                '<span class="t-ms">' + tomillisEscapeHtml(timee) + '</span>' +
+                '<span class="t-lbl">' + tomillisEscapeHtml(TOMILLIS_S.HEX_LABEL) + '</span>' +
+                '<span class="t-hex">' + tomillisEscapeHtml(
+                    TOMILLIS_S.HEX_PREFIX + hex + TOMILLIS_S.HEX_SUFFIX
+                ) + '</span>';
+        }
+    }
+
+    async function tomillisMilliSec() {
+        const input = tomillisReadInput();
+        if (!input) { toast('Pick a date first.'); return; }
+        const ms = tomillisMilliseconds(input);
+        const timee = ms.toString();
+        const ok = await copyText(timee);
+        toast(ok ? TOMILLIS_S.TOAST_COPIED : 'Copy failed');
+    }
+
+    async function tomillisHexId() {
+        const input = tomillisReadInput();
+        if (!input) { toast('Pick a date first.'); return; }
+        const ms = tomillisMilliseconds(input);
+        const hex = tomillisToHexString(ms);
+        const ok = await copyText(
+            TOMILLIS_S.HEX_PREFIX + hex + TOMILLIS_S.HEX_SUFFIX
+        );
+        toast(ok ? TOMILLIS_S.TOAST_COPIED : 'Copy failed');
+    }
+
+    function initTomillis() {
+        const btnConvert = document.getElementById('tomillisBtnConvert');
+        const btnMs      = document.getElementById('tomillisBtnMs');
+        const btnHex     = document.getElementById('tomillisBtnHex');
+        const inputEl    = document.getElementById('tomillisDate');
+
+        if (btnConvert) btnConvert.addEventListener('click', tomillisConvert);
+        if (btnMs)      btnMs.addEventListener('click', tomillisMilliSec);
+        if (btnHex)     btnHex.addEventListener('click', tomillisHexId);
+        if (inputEl)    inputEl.addEventListener('change', tomillisConvert);
+
+        tomillisTick();
+        if (tomillisClockTimer) clearInterval(tomillisClockTimer);
+        tomillisClockTimer = setInterval(tomillisTick, 1000);
+
+        if (inputEl && !inputEl.value) {
+            const now = new Date();
+            const p = x => String(x).padStart(2, "0");
+            inputEl.value =
+                now.getFullYear() + "-" + p(now.getMonth() + 1) + "-" + p(now.getDate());
+        }
+    }
+
+    /* ============================================================
+       13f. COLOR PICKER — integrated into the AI Gen panel
+       Ported from the standalone Android-style color picker.
+       Uses the page theme + system toast; dialog is a full modal.
+       ============================================================ */
+    (function initColorPicker() {
+
+        function cpClamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+        function cpClamp255(v) { return v < 0 ? 0 : v > 255 ? 255 : Math.round(v); }
+
+        function cpHsvToRgb(h, s, v) {
+            h = ((h % 360) + 360) % 360;
+            const c = v * s;
+            const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+            const m = v - c;
+            let r = 0, g = 0, b = 0;
+            if (h < 60)       { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else              { r = c; g = 0; b = x; }
+            return [
+                cpClamp255((r + m) * 255),
+                cpClamp255((g + m) * 255),
+                cpClamp255((b + m) * 255)
+            ];
+        }
+
+        function cpRgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            const d = max - min;
+            let h = 0;
+            if (d !== 0) {
+                if (max === r)      h = ((g - b) / d) % 6;
+                else if (max === g) h = (b - r) / d + 2;
+                else                h = (r - g) / d + 4;
+                h *= 60;
+                if (h < 0) h += 360;
+            }
+            return [h, max === 0 ? 0 : d / max, max];
+        }
+
+        function cpParseHex(str) {
+            if (typeof str !== "string") return null;
+            let s = str.trim().replace(/^#/, "");
+            if (!/^[0-9a-fA-F]+$/.test(s)) return null;
+            if (s.length === 3) s = s.split("").map(ch => ch + ch).join("");
+            if (s.length === 6) {
+                return {
+                    r: parseInt(s.slice(0, 2), 16),
+                    g: parseInt(s.slice(2, 4), 16),
+                    b: parseInt(s.slice(4, 6), 16),
+                    a: 1
+                };
+            }
+            if (s.length === 8) {
+                return {
+                    a: parseInt(s.slice(0, 2), 16) / 255,
+                    r: parseInt(s.slice(2, 4), 16),
+                    g: parseInt(s.slice(4, 6), 16),
+                    b: parseInt(s.slice(6, 8), 16)
+                };
+            }
+            return null;
+        }
+
+        function cpToHex(c) {
+            const p = n => n.toString(16).padStart(2, "0").toUpperCase();
+            const alpha = Math.round(cpClamp01(c.a) * 255);
+            return alpha >= 255
+                ? "#" + p(c.r) + p(c.g) + p(c.b)
+                : "#" + p(alpha) + p(c.r) + p(c.g) + p(c.b);
+        }
+
+        function cpCssColor(c) {
+            return "rgba(" + c.r + "," + c.g + "," + c.b + "," + cpClamp01(c.a) + ")";
+        }
+
+        function cpColorsEqual(a, b) {
+            return a.r === b.r && a.g === b.g && a.b === b.b &&
+                   Math.abs(a.a - b.a) < 0.004;
+        }
+
+        let cpState = { r: 0x33, g: 0xb5, b: 0xe5, a: 1 };
+        let cpTemp  = { h: 0, s: 0, v: 0, a: 1 };
+        let cpLive  = { r: 0x33, g: 0xb5, b: 0xe5, a: 1 };
+
+        const cpSwatch      = document.getElementById("cpSwatch");
+        const cpHexEl       = document.getElementById("cpHex");
+        const cpRgbEl       = document.getElementById("cpRgb");
+        const cpLiveBadge   = document.getElementById("cpLiveBadge");
+        const cpBackdrop    = document.getElementById("cpBackdrop");
+        const cpSvCanvas    = document.getElementById("cpSvCanvas");
+        const cpHueCanvas   = document.getElementById("cpHueCanvas");
+        const cpAlphaCanvas = document.getElementById("cpAlphaCanvas");
+        const cpOldSwatch   = document.getElementById("cpOldSwatch");
+        const cpNewSwatch   = document.getElementById("cpNewSwatch");
+        const cpHexInput    = document.getElementById("cpHexInput");
+        const cpPresetsEl   = document.getElementById("cpPresets");
+        const cpOkBtn       = document.getElementById("cpOkBtn");
+        const cpCancelBtn   = document.getElementById("cpCancelBtn");
+        const cpCloseX      = document.getElementById("cpCloseX");
+        const cpOpenBtn     = document.getElementById("cpOpenBtn");
+
+        if (!cpSwatch || !cpBackdrop) return;
+
+        function cpPaintScreen(c) {
+            cpSwatch.style.background = cpCssColor(c);
+
+            const hex = cpToHex(c);
+            cpHexEl.textContent = hex;
+            cpRgbEl.textContent = c.a >= 1
+                ? "rgb(" + c.r + ", " + c.g + ", " + c.b + ")"
+                : "rgba(" + c.r + ", " + c.g + ", " + c.b + ", " + c.a.toFixed(2) + ")";
+
+            cpLiveBadge.classList.toggle("show", !cpColorsEqual(cpLive, cpState));
+        }
+
+        function cpApplyColor(c) {
+            cpState = {
+                r: cpClamp255(c.r),
+                g: cpClamp255(c.g),
+                b: cpClamp255(c.b),
+                a: cpClamp01(c.a)
+            };
+            cpLive = { ...cpState };
+            cpPaintScreen(cpState);
+        }
+
+        function cpPrepCanvas(canvas) {
+            const dpr = window.devicePixelRatio || 1;
+            const w = Math.max(1, Math.round(canvas.clientWidth));
+            const h = Math.max(1, Math.round(canvas.clientHeight));
+            if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+                canvas.width  = Math.round(w * dpr);
+                canvas.height = Math.round(h * dpr);
+            }
+            const ctx = canvas.getContext("2d");
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            return ctx;
+        }
+
+        function cpDrawMarker(ctx, x, y, radius) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "rgba(0,0,0,0.45)";
+            ctx.stroke();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
+        }
+
+        function cpDrawSV() {
+            const ctx = cpSvCanvas.getContext("2d");
+            const w = cpSvCanvas.clientWidth;
+            const h = cpSvCanvas.clientHeight;
+            if (!w || !h) return;
+
+            const rgb = cpHsvToRgb(cpTemp.h, 1, 1);
+            ctx.fillStyle = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+            ctx.fillRect(0, 0, w, h);
+
+            const g1 = ctx.createLinearGradient(0, 0, w, 0);
+            g1.addColorStop(0, "rgba(255,255,255,1)");
+            g1.addColorStop(1, "rgba(255,255,255,0)");
+            ctx.fillStyle = g1;
+            ctx.fillRect(0, 0, w, h);
+
+            const g2 = ctx.createLinearGradient(0, 0, 0, h);
+            g2.addColorStop(0, "rgba(0,0,0,0)");
+            g2.addColorStop(1, "rgba(0,0,0,1)");
+            ctx.fillStyle = g2;
+            ctx.fillRect(0, 0, w, h);
+
+            cpDrawMarker(ctx, cpTemp.s * w, (1 - cpTemp.v) * h, 9);
+        }
+
+        function cpDrawHue() {
+            const ctx = cpHueCanvas.getContext("2d");
+            const w = cpHueCanvas.clientWidth;
+            const h = cpHueCanvas.clientHeight;
+            if (!w || !h) return;
+
+            const g = ctx.createLinearGradient(0, 0, w, 0);
+            for (let i = 0; i <= 6; i++) {
+                g.addColorStop(i / 6, "hsl(" + (i * 60) + ",100%,50%)");
+            }
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, w, h);
+
+            cpDrawMarker(ctx, (cpTemp.h / 360) * w, h / 2, 9);
+        }
+
+        function cpDrawAlpha() {
+            const ctx = cpAlphaCanvas.getContext("2d");
+            const w = cpAlphaCanvas.clientWidth;
+            const h = cpAlphaCanvas.clientHeight;
+            if (!w || !h) return;
+
+            const size = 8;
+            for (let y = 0; y < h; y += size) {
+                for (let x = 0; x < w; x += size) {
+                    ctx.fillStyle = (((x / size) + (y / size)) % 2 === 0) ? "#c9ced3" : "#ffffff";
+                    ctx.fillRect(x, y, size, size);
+                }
+            }
+
+            const rgb = cpHsvToRgb(cpTemp.h, cpTemp.s, cpTemp.v);
+            const g = ctx.createLinearGradient(0, 0, w, 0);
+            g.addColorStop(0, "rgba(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ",0)");
+            g.addColorStop(1, "rgba(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ",1)");
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, w, h);
+
+            cpDrawMarker(ctx, cpTemp.a * w, h / 2, 9);
+        }
+
+        function cpResizeCanvases() {
+            cpPrepCanvas(cpSvCanvas);
+            cpPrepCanvas(cpHueCanvas);
+            cpPrepCanvas(cpAlphaCanvas);
+        }
+
+        function cpDrawAll() {
+            cpDrawSV();
+            cpDrawHue();
+            cpDrawAlpha();
+        }
+
+        function cpSyncUI(skipHexField) {
+            cpDrawAll();
+
+            const rgb = cpHsvToRgb(cpTemp.h, cpTemp.s, cpTemp.v);
+            cpLive = { r: rgb[0], g: rgb[1], b: rgb[2], a: cpClamp01(cpTemp.a) };
+
+            cpPaintScreen(cpLive);
+
+            cpNewSwatch.style.background = cpCssColor(cpLive);
+            cpOldSwatch.style.background = cpCssColor(cpState);
+
+            if (!skipHexField || document.activeElement !== cpHexInput) {
+                cpHexInput.value = cpToHex(cpLive);
+            }
+
+            const hex = cpToHex(cpLive);
+            const kids = cpPresetsEl.children;
+            for (let i = 0; i < kids.length; i++) {
+                kids[i].classList.toggle(
+                    "selected",
+                    kids[i].dataset.hex.toUpperCase() === hex.toUpperCase()
+                );
+            }
+        }
+
+        function cpBindDrag(el, onMove) {
+            let active = false;
+
+            function handle(e) {
+                const rect = el.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                onMove(cpClamp01(x), cpClamp01(y));
+            }
+
+            el.addEventListener("pointerdown", function (e) {
+                active = true;
+                try { el.setPointerCapture(e.pointerId); } catch (err) {}
+                handle(e);
+                e.preventDefault();
+            });
+
+            el.addEventListener("pointermove", function (e) {
+                if (!active) return;
+                handle(e);
+                e.preventDefault();
+            });
+
+            function end(e) {
+                active = false;
+                try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+            }
+
+            el.addEventListener("pointerup", end);
+            el.addEventListener("pointercancel", end);
+            el.addEventListener("lostpointercapture", function () { active = false; });
+        }
+
+        cpBindDrag(cpSvCanvas, function (x, y) {
+            cpTemp.s = x;
+            cpTemp.v = 1 - y;
+            cpSyncUI();
+        });
+
+        cpBindDrag(cpHueCanvas, function (x) {
+            cpTemp.h = x * 360;
+            cpSyncUI();
+        });
+
+        cpBindDrag(cpAlphaCanvas, function (x) {
+            cpTemp.a = x;
+            cpSyncUI();
+        });
+
+        const CP_PRESETS = [
+            "#F44336", "#E91E63", "#9C27B0", "#673AB7",
+            "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4",
+            "#009688", "#4CAF50", "#8BC34A", "#CDDC39",
+            "#FFEB3B", "#FFC107", "#FF9800", "#FF5722",
+            "#795548", "#9E9E9E", "#607D8B", "#000000",
+            "#FFFFFF", "#33B5E5", "#FF4081", "#00E676"
+        ];
+
+        CP_PRESETS.forEach(function (hex) {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "cp-preset";
+            b.dataset.hex = hex;
+            b.style.background = hex;
+            b.setAttribute("aria-label", hex);
+            b.addEventListener("click", function () {
+                const c = cpParseHex(hex);
+                if (!c) return;
+                const hsv = cpRgbToHsv(c.r, c.g, c.b);
+                cpTemp.h = hsv[0];
+                cpTemp.s = hsv[1];
+                cpTemp.v = hsv[2];
+                cpTemp.a = c.a;
+                cpSyncUI();
+            });
+            cpPresetsEl.appendChild(b);
+        });
+
+        cpHexInput.addEventListener("input", function () {
+            const c = cpParseHex(cpHexInput.value);
+            if (!c) {
+                cpHexInput.classList.add("invalid");
+                return;
+            }
+            cpHexInput.classList.remove("invalid");
+            const hsv = cpRgbToHsv(c.r, c.g, c.b);
+            cpTemp.h = hsv[0];
+            cpTemp.s = hsv[1];
+            cpTemp.v = hsv[2];
+            cpTemp.a = c.a;
+            cpSyncUI(true);
+        });
+
+        cpHexInput.addEventListener("blur", function () {
+            cpHexInput.classList.remove("invalid");
+            const c = cpParseHex(cpHexInput.value);
+            if (!c) { cpSyncUI(); return; }
+            cpHexInput.value = cpToHex({ r: c.r, g: c.g, b: c.b, a: c.a });
+        });
+
+        cpHexInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                cpCommit();
+            }
+        });
+
+        let cpLastFocused = null;
+
+        function cpOpenDialog() {
+            cpLastFocused = document.activeElement;
+
+            const hsv = cpRgbToHsv(cpState.r, cpState.g, cpState.b);
+            cpTemp.h = hsv[0];
+            cpTemp.s = hsv[1];
+            cpTemp.v = hsv[2];
+            cpTemp.a = cpState.a;
+
+            cpLive = { ...cpState };
+
+            cpBackdrop.classList.add("open");
+            cpBackdrop.setAttribute("aria-hidden", "false");
+
+            requestAnimationFrame(function () {
+                cpResizeCanvases();
+                cpSyncUI();
+                cpOkBtn.focus({ preventScroll: true });
+            });
+        }
+
+        function cpCloseDialog(revert) {
+            if (revert) {
+                cpLive = { ...cpState };
+                cpPaintScreen(cpState);
+            }
+
+            cpBackdrop.classList.remove("open");
+            cpBackdrop.setAttribute("aria-hidden", "true");
+
+            if (cpLastFocused && typeof cpLastFocused.focus === "function") {
+                cpLastFocused.focus({ preventScroll: true });
+            }
+        }
+
+        function cpCommit() {
+            cpApplyColor(cpLive);
+            cpCloseDialog(false);
+            toast("Color committed: " + cpToHex(cpState), "fa-palette");
+        }
+
+        cpOpenBtn.addEventListener("click", cpOpenDialog);
+        cpOkBtn.addEventListener("click", cpCommit);
+        cpCancelBtn.addEventListener("click", function () { cpCloseDialog(true); });
+        cpCloseX.addEventListener("click", function () { cpCloseDialog(true); });
+
+        cpBackdrop.addEventListener("pointerdown", function (e) {
+            if (e.target === cpBackdrop) cpCloseDialog(true);
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (!cpBackdrop.classList.contains("open")) return;
+            if (e.key === "Escape") { e.preventDefault(); cpCloseDialog(true); }
+        });
+
+        cpHexEl.addEventListener("click", async function () {
+            const text = cpHexEl.textContent;
+            const ok = await copyText(text);
+            toast(ok ? "Copied " + text : text, ok ? "fa-check" : "fa-copy");
+        });
+
+        let cpResizeTimer = null;
+        window.addEventListener("resize", function () {
+            if (!cpBackdrop.classList.contains("open")) return;
+            clearTimeout(cpResizeTimer);
+            cpResizeTimer = setTimeout(function () {
+                cpResizeCanvases();
+                cpDrawAll();
+            }, 90);
+        });
+
+        /* Bootstrap with #33b5e5 */
+        cpApplyColor(cpParseHex("#33b5e5"));
+        cpResizeCanvases();
+        cpDrawAll();
+
+    })();
 
     /* ============================================================
        14. EVENT WIRING
@@ -6317,10 +7162,9 @@ ul.list b,ul.list strong{color:var(--base-content)}
             });
         }
 
-        /* Register static table text for copy */
         COPY_STORE.set('d2hTableTxt', D2H_TABLE_TEXT);
 
-        /* ---- Hex to Binary converter (NEW) ---- */
+        /* ---- Hex to Binary converter ---- */
         const hbConvertBtn = $('#hbConvert');
         if (hbConvertBtn) hbConvertBtn.addEventListener('click', runHexBinaryConvert);
 
@@ -6494,7 +7338,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
                 const h = JSON.parse($('#jwtHeader').value);
                 h.alg = this.value;
                 $('#jwtHeader').value = JSON.stringify(h, null, 2);
-            } catch (_) { /* ignore */ }
+            } catch (_) {}
         });
 
         $('#jwtSecretGen').addEventListener('click', function () {
@@ -6524,17 +7368,15 @@ ul.list b,ul.list strong{color:var(--base-content)}
        15. INITIALIZATION
        ============================================================ */
     function init() {
-        /* Theme: restore saved or default */
         let saved = 'cyberpunk';
         try {
             const stored = localStorage.getItem('neon-theme');
             if (stored && THEMES.indexOf(stored) !== -1) saved = stored;
-        } catch (_) { /* ignore */ }
+        } catch (_) {}
 
         buildThemeGallery();
         applySystemTheme(saved);
 
-        /* Restore custom colors if present */
         try {
             const custom = localStorage.getItem('neon-custom-colors');
             if (custom) {
@@ -6555,7 +7397,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
                     if (el && parsed[k]) el.value = parsed[k];
                 });
             }
-        } catch (_) { /* ignore */ }
+        } catch (_) {}
 
         wireEvents();
 
@@ -6592,14 +7434,18 @@ ul.list b,ul.list strong{color:var(--base-content)}
         /* ---- Initial hex → binary conversion demo (1D8A → 1110110001010) ---- */
         runHexBinaryConvert();
 
-        /* Build the live capability matrix */
+        /* ---- Tomillis bootstrap ---- */
+        initTomillis();
+        tomillisConvert();
+
+        /* ---- Capability matrix ---- */
         buildCapabilityMatrix();
 
         console.log('%cHEX Key Gen ready — 100% client-side, no API key. Web Crypto upgraded.',
             'color:#67cba0;font-weight:bold;');
         console.log('SubtleCrypto.supports() available: ' + hasSupportsAPI());
         console.log('Converter codecs loaded: ' + CODECS.length);
-        console.log('Epoch clock live · hex timestamp converter ready · decimal→hex converter ready · hex→binary converter ready');
+        console.log('Epoch clock live · hex timestamp converter ready · decimal→hex converter ready · hex→binary converter ready · Tomillis ready · Color Picker ready');
     }
 
     if (document.readyState === 'loading') {
@@ -6710,6 +7556,5 @@ if (document.addEventListener) {
     });
 }
 </script>
-
 </body>
 </html>
