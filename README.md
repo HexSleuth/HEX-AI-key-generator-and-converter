@@ -1,40 +1,67 @@
-𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠 / HEX AI Key Generator & Converter
-> A comprehensive, client-side developer utility toolkit featuring a heuristic AI key generator, Android-style HSV color picker, static coding model provider catalogue, real-time Unix epoch clock, Tomillis timestamp converter, and a multi-format base/encoder/decoder suite—running entirely in the browser with zero server dependencies.
-> 
-🚀 Overview
-HEX AI Key Generator & Converter is a lightweight, single-page client utility designed for developers, reverse engineers, and web designers. Built with a responsive dark-mode UI, it packs heavy number-crunching and conversion utilities right into your browser without requiring external APIs, backend services, or network requests.
-✨ Key Features
-1. 🤖 HEX AI Key Generator
- * Heuristic Intent Planner: Runs entirely inside the browser using deterministic heuristic logic combined with crypto.getRandomValues() for real cryptographic entropy.
- * No API Keys Required: Generate randomized tokens, mock keys, and structured developer strings offline.
-2. 🎨 Android-Style HSV Color Picker
- * Interactive Swatches: Tap the color preview to open a native-style color selection dialog.
- * Live CSS & RGB/HEX Updates: Real-time color preview with instant copy functionality, reusing custom page themes and system toast notifications.
-3. 📚 Free Coding Model Providers Catalogue
- * Static Curation: Embedded catalogue of free AI model providers and endpoints.
- * Interactive Simulation: Simulated streaming fetch loader to explore model suites and endpoints without leaving the page.
-4. 🕒 Unix Epoch & Tomillis Time Converters
- * Unix Epoch Clock: Live second-by-second timestamp tracker synchronized with your local system clock (Local, UTC, ISO 8601, Milliseconds, and Hex views).
- * Tomillis Tool: Ported from the Tomillis Android app—pick a date, convert, and copy timestamps instantly.
- * Unix Hex Timestamp Converter: Seamless conversion between decimal timestamps, hexadecimal values, and human-readable dates.
-5. 🔢 Number System & Base Converters
- * Decimal to Hexadecimal: Full division-by-16 remainder step-by-step breakdown, little/big-endian byte views, and conversion reference tables (with scientific notation support like 5.72e2).
- * Hex / Binary / Octal / Text Converter: Universal base converter supporting Binary (0b...), Octal (0o...), Hexadecimal (0x...), Decimal, and UTF-8 text round-trips with customizable digit grouping and calculation breakdowns.
- * Code Snippets: Quick-reference code snippets for fetching and converting epoch timestamps in various programming languages.
-6. 🔤 Multi-Format Encoder / Decoder Suite
-Convert, encode, and transform text instantly across multiple formats:
- * ASCII, Binary, HEX, Octal
- * Base32, Base64, Base85
- * URL Encoding / Decoding
- * Text Modifiers: Reverser, UPPER, lower, Upside-Down, Superscript, Subscript
- * Special Formats: Morse Code, Zalgo text generator (mini, normal, big), and Randomizers.
-🛠️ Technology Stack
- * Pure Vanilla JavaScript (ES6+): Zero framework bloat, fast load times, and maximum performance.
- * Modern CSS3: Custom responsive layout, Android-inspired UI components, and dark-mode styling.
- * Browser Cryptography: Leverages crypto.getRandomValues() for secure client-side entropy.
- * GitHub Pages: Hosted and deployed statically for instant global access.
-🌐 Live Demo
-Explore the live application here:
-👉 https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/
-📄 License
-Created by HexSleuth (𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠). Feel free to explore, fork, and adapt for your own developer toolkits!
+<div align="center">
+
+# 𓋹 • HEX AI Key Generator & Converter • 𓃠
+
+[![GitHub Pages](https://img.shields.io/badge/Status-Live%20on%20GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Vanilla JS](https://img.shields.io/badge/Tech-Vanilla%20JS%20%2F%2F%20HTML5-yellow?style=for-the-badge&logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+A lightning-fast, client-side utility suite featuring a deterministic heuristic AI key generator, robust base converters, time-synchronization tools, color pickers, and a multi-format encoder/decoder—running 100% locally in your browser with zero server dependencies.
+
+[**Explore Live Demo**](https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/)
+
+</div>
+
+---
+
+## 🚀 Key Features
+
+### 1. 🧠 HEX AI Key Generator
+* **Client-Side Heuristic Generator:** Runs entirely inside your browser using a keyword-intent planner combined with `crypto.getRandomValues()` for real cryptographic entropy.
+* **Zero API Keys Required:** Generate, test, and prototype instantly without leaking keys or making external network requests.
+* **Batch Generation:** Quickly generate multiple keys simultaneously (1, 2, 3, 5, 10, or 25 keys).
+
+### 2. 🎨 Android-Style Color Picker
+* **HSV Color Picker:** Interactive color swatch dialog with live previews.
+* **Multiple Formats:** Instant readout for HEX (`#33B5E5`) and RGB values (`rgb(51, 181, 229)`).
+* **One-Tap Copy:** Built-in copy triggers utilizing system toasts and clean UX feedback.
+
+### 3. 🌐 Free Coding Model Providers
+* **Curated Offline Catalogue:** Browse an embedded database of free coding model providers and APIs directly in your browser.
+* **Simulated Stream:** Test loading states and view structured provider cards without hitting live endpoints.
+
+### 4. ⏱️ Advanced Time & Epoch Utilities
+* **Unix Epoch Clock:** Real-time second counter tracking seconds elapsed since `00:00:00 UTC on January 1, 1970`.
+* **Tomillis Tool:** Convert dates into Unix milliseconds and hex with a pick-a-date workflow ported from native Android patterns.
+* **Unix Hex Timestamp Converter:** Seamless conversion between decimal timestamps, hexadecimal, and human-readable ISO/UTC dates.
+* **Epoch in Code Snippets:** Quick reference code snippets in multiple programming languages to fetch epoch times and parse timestamps.
+
+### 5. 🔢 Comprehensive Number System Converters
+* **Decimal to Hexadecimal:** Full division-by-16 remainder step-by-step breakdown, little/big-endian byte views, and conversion tables. Supports scientific notation (e.g., `572 = 5.72e2`).
+* **Base Converter (Hex ⇄ Binary ⇄ Decimal ⇄ Octal ⇄ Text):** Universal cross-base converter supporting custom prefixes (`0b`, `0o`, `0x`), digit grouping (4, 8, 16 digits), and UTF-8 text round-trips.
+
+### 6. 🔤 Multi-Format Encoder / Decoder
+An all-in-one text transformation suite supporting:
+* ASCII, Binary, HEX, Octal
+* Base32, Base64, Base85
+* URL Encoding/Decoding
+* Case Transformers (UPPER, lower, Reverser)
+* Stylized Fonts (Upside-Down, Superscript, Subscript)
+* Morse Code & Zalgo Text Generators (mini, normal, big)
+
+---
+
+## 🛠️ Tech Stack
+
+* **HTML5 / CSS3:** Responsive layouts, custom UI components, and modern CSS variables.
+* **Vanilla JavaScript (ES6+):** Modular, lightweight scripts utilizing browser crypto APIs (`crypto.getRandomValues`) and high-precision timing.
+* **GitHub Pages:** Fast, reliable static hosting.
+
+---
+
+## 📂 Project Structure
+
+```text
+├── index.html            # Main application layout & UI markup
+├── assets/               # Stylesheets, icons, and static assets
+└── js/                   # Core application logic & converters
