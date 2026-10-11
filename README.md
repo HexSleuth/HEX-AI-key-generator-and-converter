@@ -57,7 +57,35 @@ An all-in-one text transformation suite supporting:
 * **Vanilla JavaScript (ES6+):** Modular, lightweight scripts utilizing browser crypto APIs (`crypto.getRandomValues`) and high-precision timing.
 * **GitHub Pages:** Fast, reliable static hosting.
 
+## 💻 Local Development & Usage
+Because this project is built entirely with client-side web technologies, no complex build steps or backend servers are required to run it locally.
+1.Clone the repository:
+bash
+git clone [https://github.com/hexsleuth/HEX-AI-key-generator-and-converter.git](https://github.com/hexsleuth/HEX-AI-key-generator-and-converter.git)
+
+2.Navigate to the project directory:
+``bash
+cd HEX-AI-key-generator-and-converter
+
+
+3.Run locally:
+Simply open index.html in your favorite web browser, or launch it using a local development server (like the VS Code Live Server extension).
+
 ---
+
+## 👤 Author
+Developed with 🤍 by HexSleuth (𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠).
+GitHub: @hexsleuth
+Portfolio / Tools: hexsleuthtools.blogspot.com
+
+## 📝 License
+This project is open-source and available under the MIT License.
+
+---
+
+
+
+
 
 ## 📂 Project Structure
 
