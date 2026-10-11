@@ -55,7 +55,15 @@ Compute digests locally with zero latency:
 ### 7. JWT Tooling & Reference Guide
 * Sign and verify **HS256**, **HS384**, and **HS512** tokens locally using HMAC via the Web Crypto API.
 * Comprehensive built-in guides for multi-language JWT libraries (Node.js, Python, Java, C#, PHP, Go) and security best practices.
-
+### 8.🔒Privacy & Security
+100% Client-Side: All keys, encodings, hashes, and tokens are generated entirely within your browser runtime.
+Zero Telemetry: No data is logged, tracked, or transmitted to any external servers.
+Standards Compliant: Utilizes native browser cryptographic standards (crypto.getRandomValues() and SubtleCrypto) to guarantee maximum entropy and security.
+### 9.👤Author
+Developed by HexSleuth (𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠).
+### 10.📄License
+Distributed under the MIT License. See LICENSE for more information.
+<FollowUp label="Want me to generate a custom configuration script or deploy guide for this repository?" query="How can I configure GitHub Pages and automate deployment for this repository?"/>
 ---
 
 ## 🚀 Getting Started
@@ -74,12 +82,4 @@ Because this project is a purely static, client-side web application, you can ru
   ```bash
   npx serve .
 
-🔒 Privacy & Security
-100% Client-Side: All keys, encodings, hashes, and tokens are generated entirely within your browser runtime.
-Zero Telemetry: No data is logged, tracked, or transmitted to any external servers.
-Standards Compliant: Utilizes native browser cryptographic standards (crypto.getRandomValues() and SubtleCrypto) to guarantee maximum entropy and security.
-👤 Author
-Developed by HexSleuth (𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠).
-📄 License
-Distributed under the MIT License. See LICENSE for more information.
-<FollowUp label="Want me to generate a custom configuration script or deploy guide for this repository?" query="How can I configure GitHub Pages and automate deployment for this repository?"/>
+
