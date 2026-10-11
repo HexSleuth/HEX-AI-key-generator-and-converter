@@ -1,85 +1,40 @@
-# 𓋹 HEX AI Key Generator & Converter
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: Web Browser](https://img.shields.io/badge/Platform-Web%20Browser-success.svg)](https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/)
-[![Crypto: Web Crypto API](https://img.shields.io/badge/Crypto-Web%20Crypto%20API-orange.svg)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
-
-A comprehensive, lightning-fast, 100% client-side developer toolkit built for local security operations, encoding/decoding, key generation, and cryptographic primitives. Running entirely in the browser with zero external server requests or API dependencies.
-
-🔗 **Live Demo:** [https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/](https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/)
-
----
-
-## ✨ Core Features
-
-### 1. HEX AI Key Generator & Heuristic Model
-* **Deterministic Heuristic Planner:** Simulates AI-assisted key generation locally using client-side keyword-intent parsing.
-* **Real Entropy:** Backed strictly by `crypto.getRandomValues()` for cryptographically secure randomness.
-* **Zero API Dependency:** No external network requests or paid keys required.
-
-### 2. Multi-Format Encoder / Decoder
-Execute instant client-side transformations across dozens of formats:
-* **Numeric Bases:** ASCII decimal, 8-bit binary, hexadecimal bytes, octal bytes.
-* **Case & Order:** UPPERCASE, lowercase, random case, and full string reverser.
-* **Unicode Styles & Typography:** Upside-down, superscript, subscript, Zalgo (mini/normal/big), Braille, Wingdings, Leetspeak (`1337`), and Unicode escapes (`\uXXXX`).
-* **Ciphers & Alphabets:** Caesar shift, ROT-13, Atbash, NATO phonetic alphabet, and International Morse code.
-* **Transport Encodings:** Base32 (RFC 4648), Base64, Base85/ASCII85, URL percent-encoding, and HTML entities.
-* **Language Games:** Pig Latin with case preservation and reverse parsing.
-
-### 3. Token & Identifier Generator
-Generate secure cryptographically random strings for keys, IDs, salts, and tokens:
-* HEX (lowercase / UPPERCASE)
-* Alphanumeric, Base62, Base58 (Bitcoin alphabet), and URL-safe Base64
-* UUID v4
-* GitHub Personal Access Tokens (`ghp_`) and Fine-Grained tokens (`github_pat_`)
-
-### 4. Advanced Encryption Key Generators (Web Crypto API)
-Equipped with modern algorithms and live runtime feature detection (`SubtleCrypto.supports()`):
-* **Symmetric:** AES (GCM/CBC/CTR/OCB), ChaCha20-Poly1305, and AES-KW key wrapping.
-* **Key Derivation & Secrets:** HKDF, PBKDF2, Argon2 (where supported), and HMAC.
-* **Asymmetric & Secure Curves:** RSA, ECC, EdDSA, Ed25519, Ed448, X25519, and X448.
-* **Post-Quantum Cryptography:** ML-KEM (512/768/1024) and ML-DSA hybrid encapsulation and signature schemes.
-* **SSH, VPN & PGP Key Formats:** Support for raw, spki, pkcs8, and jwk key structures.
-
-### 5. Hash & Cryptographic Digest Generator
-Compute digests locally with zero latency:
-* **Classic Digests:** SHA-1, SHA-2, SHA-3, and MD5 (legacy).
-* **XOF (Extendable-Output Functions):** cSHAKE128/256, KangarooTwelve, and TurboSHAKE.
-* **Password Hashing:** PBKDF2-HMAC-SHA256 with adjustable iterations (OWASP 210k+ default).
-* **File Hashing:** Instant client-side file checksum computation.
-
-### 6. Secure Password Generator
-* Built exclusively on `crypto.getRandomValues()` with rejection sampling to eliminate modulo bias.
-* Highly customizable character sets, symbol toggles, and length sliders.
-
-### 7. JWT Tooling & Reference Guide
-* Sign and verify **HS256**, **HS384**, and **HS512** tokens locally using HMAC via the Web Crypto API.
-* Comprehensive built-in guides for multi-language JWT libraries (Node.js, Python, Java, C#, PHP, Go) and security best practices.
-### 8.🔒Privacy & Security
-100% Client-Side: All keys, encodings, hashes, and tokens are generated entirely within your browser runtime.
-Zero Telemetry: No data is logged, tracked, or transmitted to any external servers.
-Standards Compliant: Utilizes native browser cryptographic standards (crypto.getRandomValues() and SubtleCrypto) to guarantee maximum entropy and security.
-### 9.👤Author
-Developed by HexSleuth (𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠).
-### 10.📄License
-Distributed under the MIT License. See LICENSE for more information.
-<FollowUp label="Want me to generate a custom configuration script or deploy guide for this repository?" query="How can I configure GitHub Pages and automate deployment for this repository?"/>
----
-
-## 🚀 Getting Started
-
-Because this project is a purely static, client-side web application, you can run it instantly without complex build pipelines or backend servers.
-
-### Running Locally
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/HexSleuth/HEX-AI-key-generator-and-converter.git](https://github.com/HexSleuth/HEX-AI-key-generator-and-converter.git)
-2. Navigate into the directory:
-   ```bash
-   cd HEX-AI-key-generator-and-converter
-   
-3.Open index.html directly in any modern web browser, or serve it using a local static server:
-  ```bash
-  npx serve .
-
-
+𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠 / HEX AI Key Generator & Converter
+> A comprehensive, client-side developer utility toolkit featuring a heuristic AI key generator, Android-style HSV color picker, static coding model provider catalogue, real-time Unix epoch clock, Tomillis timestamp converter, and a multi-format base/encoder/decoder suite—running entirely in the browser with zero server dependencies.
+> 
+🚀 Overview
+HEX AI Key Generator & Converter is a lightweight, single-page client utility designed for developers, reverse engineers, and web designers. Built with a responsive dark-mode UI, it packs heavy number-crunching and conversion utilities right into your browser without requiring external APIs, backend services, or network requests.
+✨ Key Features
+1. 🤖 HEX AI Key Generator
+ * Heuristic Intent Planner: Runs entirely inside the browser using deterministic heuristic logic combined with crypto.getRandomValues() for real cryptographic entropy.
+ * No API Keys Required: Generate randomized tokens, mock keys, and structured developer strings offline.
+2. 🎨 Android-Style HSV Color Picker
+ * Interactive Swatches: Tap the color preview to open a native-style color selection dialog.
+ * Live CSS & RGB/HEX Updates: Real-time color preview with instant copy functionality, reusing custom page themes and system toast notifications.
+3. 📚 Free Coding Model Providers Catalogue
+ * Static Curation: Embedded catalogue of free AI model providers and endpoints.
+ * Interactive Simulation: Simulated streaming fetch loader to explore model suites and endpoints without leaving the page.
+4. 🕒 Unix Epoch & Tomillis Time Converters
+ * Unix Epoch Clock: Live second-by-second timestamp tracker synchronized with your local system clock (Local, UTC, ISO 8601, Milliseconds, and Hex views).
+ * Tomillis Tool: Ported from the Tomillis Android app—pick a date, convert, and copy timestamps instantly.
+ * Unix Hex Timestamp Converter: Seamless conversion between decimal timestamps, hexadecimal values, and human-readable dates.
+5. 🔢 Number System & Base Converters
+ * Decimal to Hexadecimal: Full division-by-16 remainder step-by-step breakdown, little/big-endian byte views, and conversion reference tables (with scientific notation support like 5.72e2).
+ * Hex / Binary / Octal / Text Converter: Universal base converter supporting Binary (0b...), Octal (0o...), Hexadecimal (0x...), Decimal, and UTF-8 text round-trips with customizable digit grouping and calculation breakdowns.
+ * Code Snippets: Quick-reference code snippets for fetching and converting epoch timestamps in various programming languages.
+6. 🔤 Multi-Format Encoder / Decoder Suite
+Convert, encode, and transform text instantly across multiple formats:
+ * ASCII, Binary, HEX, Octal
+ * Base32, Base64, Base85
+ * URL Encoding / Decoding
+ * Text Modifiers: Reverser, UPPER, lower, Upside-Down, Superscript, Subscript
+ * Special Formats: Morse Code, Zalgo text generator (mini, normal, big), and Randomizers.
+🛠️ Technology Stack
+ * Pure Vanilla JavaScript (ES6+): Zero framework bloat, fast load times, and maximum performance.
+ * Modern CSS3: Custom responsive layout, Android-inspired UI components, and dark-mode styling.
+ * Browser Cryptography: Leverages crypto.getRandomValues() for secure client-side entropy.
+ * GitHub Pages: Hosted and deployed statically for instant global access.
+🌐 Live Demo
+Explore the live application here:
+👉 https://hexsleuth.github.io/HEX-AI-key-generator-and-converter/
+📄 License
+Created by HexSleuth (𓋹•ʰᵉˣˢˡᵉᵘᵗʰ•𓃠). Feel free to explore, fork, and adapt for your own developer toolkits!
