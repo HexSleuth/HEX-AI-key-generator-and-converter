@@ -327,6 +327,134 @@ ul.list b,ul.list strong{color:var(--base-content)}
   .brand small{display:none}
   .card{padding:12px}
 }
+
+/* ============================================================
+   EPOCH CLOCK — classic terminal style
+   ============================================================ */
+.epoch-clock{
+  background:#05080a;
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  border-radius:14px;
+  padding:22px 18px 18px;
+  margin:14px 0 12px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:inset 0 0 50px rgba(103,203,160,.05),0 6px 24px rgba(0,0,0,.45);
+}
+.epoch-clock::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,
+    rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+    rgba(103,203,160,.035) 3px, rgba(0,0,0,0) 4px);
+}
+.epoch-clock-inner{position:relative;text-align:center;z-index:1}
+.epoch-digits{
+  font-family:var(--mono);
+  font-size:clamp(34px,9vw,64px);
+  font-weight:800;
+  letter-spacing:.04em;
+  color:var(--accent);
+  text-shadow:0 0 14px color-mix(in srgb,var(--accent) 65%,transparent),
+              0 0 38px color-mix(in srgb,var(--accent) 30%,transparent);
+  line-height:1.05;
+  font-variant-numeric:tabular-nums;
+  word-break:break-all;
+}
+.epoch-label{
+  margin-top:8px;
+  font-size:10.5px;letter-spacing:.24em;
+  color:color-mix(in srgb,var(--accent) 60%,transparent);
+  font-weight:800;text-transform:uppercase;
+}
+.epoch-meta{
+  display:grid;grid-template-columns:1fr;gap:6px;
+  background:var(--base-100);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;margin-top:12px;
+}
+@media(min-width:600px){
+  .epoch-meta{grid-template-columns:1fr 1fr;}
+  .epoch-meta-row.wide{grid-column:1 / -1;}
+}
+.epoch-meta-row{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:12px;
+  padding:3px 0;
+  border-bottom:1px dashed color-mix(in srgb,var(--line) 60%,transparent);
+}
+.epoch-meta-row:last-child{border-bottom:none}
+.epoch-meta-lbl{
+  color:var(--muted);font-weight:800;letter-spacing:.1em;
+  font-size:10.5px;flex:none;text-transform:uppercase;
+}
+.epoch-meta-val{
+  color:var(--base-content);word-break:break-all;text-align:right;
+}
+
+/* Timestamp converter */
+.ts-input-row{display:flex;gap:8px;align-items:stretch}
+.ts-input-row input{flex:1;font-family:var(--mono)}
+.ts-input-row .mini{height:auto;width:44px}
+
+/* Code snippet list */
+.lang-block{
+  background:var(--base-100);border:1px solid var(--line);
+  border-radius:12px;padding:10px 12px;margin-top:10px;
+}
+.lang-block .out-head{margin-bottom:7px}
+.lang-block .out-val{max-height:none}
+.lang-icon{color:var(--primary);margin-right:6px;font-size:12px}
+
+/* Decimal to Hex tables */
+.d2h-table{
+  width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;
+}
+.d2h-table thead tr{border-bottom:1px solid var(--line-strong)}
+.d2h-table th{
+  text-align:left;padding:6px 8px;color:var(--muted);font-weight:800;
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+}
+.d2h-table tbody tr{border-bottom:1px solid var(--line)}
+.d2h-table tbody tr:last-child{border-bottom:none}
+.d2h-table td{padding:5px 8px;word-break:break-all}
+.d2h-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.d2h-two-col{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:4px 14px;
+  font-family:var(--mono);font-size:12px;
+}
+.d2h-two-col-row{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:3px 0;border-bottom:1px dashed color-mix(in srgb,var(--line) 55%,transparent);
+}
+.d2h-two-col-row span:first-child{color:var(--muted);font-weight:700}
+.d2h-two-col-row span:last-child{color:var(--base-content)}
+
+/* Hex to Binary converter — base badge inline */
+.hb-base{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:26px;height:22px;padding:0 6px;
+  border-radius:6px;background:var(--base-300);border:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;font-weight:800;
+  color:var(--accent);letter-spacing:.04em;margin-left:8px;
+  flex:none;
+}
+.hb-label-row{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin:12px 0 6px;
+}
+.hb-label-row .lbl{margin:0}
+.hb-result-row{
+  display:flex;align-items:center;gap:8px;
+  background:var(--base-100);border:1px solid var(--line);
+  border-radius:12px;padding:10px 12px;margin-top:10px;
+}
+.hb-result-row .out-val{flex:1;max-height:none;white-space:pre-wrap}
+.hb-swap-row{
+  display:flex;align-items:center;justify-content:center;
+  margin:10px 0 4px;
+}
+.hb-swap-row .mini{
+  width:46px;height:36px;border-radius:11px;
+}
 </style>
 </head>
 <body>
@@ -427,9 +555,442 @@ ul.list b,ul.list strong{color:var(--base-content)}
     </section>
 
     <!-- ============================================================
-         PANEL: CONVERTER  (28+ codecs, 100% offline)
+         PANEL: CONVERTER
+         Order:
+           1. Unix Epoch Clock (classic terminal style)
+           2. Unix Hex Timestamp Converter
+           3. Decimal to Hexadecimal Converter
+           4. Hex to Binary Converter   ← NEW
+           5. Current Epoch Time in Code
+           6. Multi-Format Encoder / Decoder
+           7. Chosen Method — Source
          ============================================================ -->
     <section class="panel" id="panel-convert">
+
+      <!-- ============ 1. UNIX EPOCH CLOCK (classic terminal style) ============ -->
+      <div class="card">
+        <h2><i class="fa-regular fa-clock"></i> Unix Epoch Clock</h2>
+        <p class="lead">
+          The current Unix timestamp — the number of seconds elapsed since
+          <b>00:00:00 UTC on 1 January 1970</b>. Based on your computer's time settings.
+          For the normal time, see the world clock page.
+        </p>
+
+        <div class="epoch-clock">
+          <div class="epoch-clock-inner">
+            <div class="epoch-digits" id="epochDigits">0000000000</div>
+            <div class="epoch-label">Unix timestamp · seconds</div>
+          </div>
+        </div>
+
+        <div class="epoch-meta">
+          <div class="epoch-meta-row">
+            <span class="epoch-meta-lbl">Local</span>
+            <span class="epoch-meta-val" id="epochLocal">—</span>
+          </div>
+          <div class="epoch-meta-row">
+            <span class="epoch-meta-lbl">UTC</span>
+            <span class="epoch-meta-val" id="epochUtc">—</span>
+          </div>
+          <div class="epoch-meta-row wide">
+            <span class="epoch-meta-lbl">ISO 8601</span>
+            <span class="epoch-meta-val" id="epochIso">—</span>
+          </div>
+          <div class="epoch-meta-row">
+            <span class="epoch-meta-lbl">Milliseconds</span>
+            <span class="epoch-meta-val" id="epochMs">—</span>
+          </div>
+          <div class="epoch-meta-row">
+            <span class="epoch-meta-lbl">Hex</span>
+            <span class="epoch-meta-val" id="epochHex">—</span>
+          </div>
+        </div>
+
+        <div class="btns">
+          <button class="btn btn-sm" data-copy="epochNow" id="epochCopyBtn">
+            <i class="fa-regular fa-copy"></i> Copy timestamp
+          </button>
+          <button class="btn btn-sm" data-copy="epochNowMs">
+            <i class="fa-regular fa-copy"></i> Copy milliseconds
+          </button>
+          <button class="btn btn-sm" id="epochPauseBtn">
+            <i class="fa-solid fa-pause"></i> Pause
+          </button>
+          <button class="btn btn-sm btn-ghost" id="epochUseNow">
+            <i class="fa-solid fa-arrow-down"></i> Use in converter
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ 2. UNIX HEX TIMESTAMP CONVERTER ============ -->
+      <div class="card">
+        <h2><i class="fa-solid fa-hashtag"></i> Unix Hex Timestamp Converter</h2>
+        <p class="lead">
+          Convert between Unix decimal timestamps and hexadecimal, with a human-readable date
+          output. Fully offline — same behaviour as the classic epoch tools.
+        </p>
+
+        <label class="lbl" for="tsDecInput">Decimal timestamp (seconds)</label>
+        <div class="ts-input-row">
+          <input type="text" id="tsDecInput" inputmode="numeric" placeholder="1791699739" value="1791699739">
+          <button class="mini" id="tsDecNow" title="Use current time" aria-label="Use current time">
+            <i class="fa-regular fa-clock"></i>
+          </button>
+          <button class="mini" id="tsDecToHex" title="Decimal to Hex" aria-label="Decimal to Hex">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <label class="lbl" for="tsHexInput">Hexadecimal timestamp</label>
+        <div class="ts-input-row">
+          <input type="text" id="tsHexInput" inputmode="text" placeholder="6ACB2B1B" value="6ACB2B1B">
+          <button class="mini" id="tsHexNow" title="Use current time" aria-label="Use current time">
+            <i class="fa-regular fa-clock"></i>
+          </button>
+          <button class="mini" id="tsHexToDec" title="Hex to Decimal" aria-label="Hex to Decimal">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </div>
+
+        <div class="out" style="margin-top:12px">
+          <div class="out-head">
+            <span class="out-label">Conversion result</span>
+            <span class="out-tools">
+              <button class="mini" data-copy="tsResult" title="Copy"><i class="fa-regular fa-copy"></i></button>
+            </span>
+          </div>
+          <pre class="out-val" id="tsResultVal">Enter a decimal or hexadecimal timestamp above.</pre>
+        </div>
+      </div>
+
+      <!-- ============ 3. DECIMAL TO HEXADECIMAL CONVERTER ============ -->
+      <div class="card">
+        <h2><i class="fa-solid fa-arrow-right-arrow-left"></i> Decimal to Hexadecimal Converter</h2>
+        <p class="lead">
+          Convert decimal (base 10) numbers to hexadecimal (base 16) with the full
+          division-by-16 remainder steps, a little-endian / big-endian byte view, and
+          the classic conversion table. Supports scientific notation
+          (e.g. <code>572 = 5.72e2</code>).
+        </p>
+
+        <div class="grid2">
+          <div>
+            <label class="lbl" for="d2hDec">Decimal (base 10)</label>
+            <div class="ts-input-row">
+              <input type="text" id="d2hDec" inputmode="decimal" placeholder="7562" value="7562">
+              <button class="mini" id="d2hNow" title="Convert" aria-label="Convert">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          <div>
+            <label class="lbl" for="d2hHex">Hexadecimal (base 16)</label>
+            <div class="ts-input-row">
+              <input type="text" id="d2hHex" inputmode="text" placeholder="1D8A" readonly>
+              <button class="mini" data-copy="d2hHexVal" title="Copy hex" aria-label="Copy hex">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="btns">
+          <button class="btn btn-primary btn-sm" id="d2hRun">
+            <i class="fa-solid fa-calculator"></i> Convert &amp; show steps
+          </button>
+          <button class="btn btn-sm" id="d2hExample1">
+            <i class="fa-solid fa-flask"></i> Example 1 (7562)
+          </button>
+          <button class="btn btn-sm" id="d2hExample2">
+            <i class="fa-solid fa-flask"></i> Example 2 (35631)
+          </button>
+          <button class="btn btn-sm" id="d2hEnot">
+            <i class="fa-solid fa-superscript"></i> E notation (5.72e2)
+          </button>
+        </div>
+
+        <!-- Step-by-step division table -->
+        <div id="d2hSteps"></div>
+
+        <!-- Endianness view -->
+        <div id="d2hEndian"></div>
+
+        <!-- Conversion table -->
+        <div class="out" style="margin-top:12px">
+          <div class="out-head">
+            <span class="out-label">Decimal → Hex conversion table</span>
+            <span class="out-tools">
+              <button class="mini" data-copy="d2hTableTxt" title="Copy table"><i class="fa-regular fa-copy"></i></button>
+            </span>
+          </div>
+          <div class="d2h-scroll">
+            <table class="d2h-table">
+              <thead>
+                <tr>
+                  <th>Decimal<br>base 10</th>
+                  <th>Hex<br>base 16</th>
+                  <th>Decimal<br>base 10</th>
+                  <th>Hex<br>base 16</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0</td><td>0</td><td>40</td><td>28</td></tr>
+                <tr><td>1</td><td>1</td><td>50</td><td>32</td></tr>
+                <tr><td>2</td><td>2</td><td>60</td><td>3C</td></tr>
+                <tr><td>3</td><td>3</td><td>70</td><td>46</td></tr>
+                <tr><td>4</td><td>4</td><td>80</td><td>50</td></tr>
+                <tr><td>5</td><td>5</td><td>90</td><td>5A</td></tr>
+                <tr><td>6</td><td>6</td><td>100</td><td>64</td></tr>
+                <tr><td>7</td><td>7</td><td>200</td><td>C8</td></tr>
+                <tr><td>8</td><td>8</td><td>1000</td><td>3E8</td></tr>
+                <tr><td>9</td><td>9</td><td>2000</td><td>7D0</td></tr>
+                <tr><td>10</td><td>A</td><td>16</td><td>10</td></tr>
+                <tr><td>11</td><td>B</td><td>17</td><td>11</td></tr>
+                <tr><td>12</td><td>C</td><td>18</td><td>12</td></tr>
+                <tr><td>13</td><td>D</td><td>19</td><td>13</td></tr>
+                <tr><td>14</td><td>E</td><td>20</td><td>14</td></tr>
+                <tr><td>15</td><td>F</td><td>26</td><td>1A</td></tr>
+                <tr><td>21</td><td>15</td><td>27</td><td>1B</td></tr>
+                <tr><td>22</td><td>16</td><td>28</td><td>1C</td></tr>
+                <tr><td>23</td><td>17</td><td>29</td><td>1D</td></tr>
+                <tr><td>24</td><td>18</td><td>30</td><td>1E</td></tr>
+                <tr><td>25</td><td>19</td><td>—</td><td>—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Explanation: Decimal -->
+        <h3><i class="fa-solid fa-hashtag"></i> Decimal</h3>
+        <p class="small muted">
+          Decimal number is a number expressed in the base 10 numeral system. Decimal number's
+          digits have 10 symbols: <code>0,1,2,3,4,5,6,7,8,9</code>. Each digit of a decimal
+          number counts a power of 10.
+        </p>
+        <p class="small muted">
+          Decimal number example:<br>
+          <code>653₁₀ = 6×10² + 5×10¹ + 3×10⁰</code>
+        </p>
+
+        <!-- Explanation: Hexadecimal -->
+        <h3><i class="fa-solid fa-hashtag"></i> Hexadecimal</h3>
+        <p class="small muted">
+          Hexadecimal number is a number expressed in the base 16 numeral system. Hexadecimal
+          number's digits have 16 symbols: <code>0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F</code>. Each
+          digit of a hexadecimal number counts a power of 16.
+        </p>
+        <p class="small muted">
+          Hexadecimal number example:<br>
+          <code>62C₁₆ = 6×16² + 2×16¹ + 12×16⁰ = 1580₁₀</code>
+        </p>
+
+        <!-- Explanation: How to convert -->
+        <h3><i class="fa-solid fa-list-ol"></i> How to convert from decimal to hex</h3>
+        <div class="out">
+          <div class="out-head">
+            <span class="out-label">Conversion steps</span>
+          </div>
+          <ul class="list" style="margin-top:4px">
+            <li>Divide the number by 16.</li>
+            <li>Get the integer quotient for the next iteration.</li>
+            <li>Get the remainder for the hex digit.</li>
+            <li>Repeat the steps until the quotient is equal to 0.</li>
+          </ul>
+        </div>
+
+        <h3><i class="fa-solid fa-flask"></i> Example #1 — Convert 7562₁₀ to hex</h3>
+        <div class="d2h-scroll">
+          <table class="d2h-table">
+            <thead>
+              <tr>
+                <th>Division by 16</th>
+                <th>Quotient (integer)</th>
+                <th>Remainder (decimal)</th>
+                <th>Remainder (hex)</th>
+                <th>Digit #</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>7562/16</td><td>472</td><td>10</td><td>A</td><td>0</td></tr>
+              <tr><td>472/16</td><td>29</td><td>8</td><td>8</td><td>1</td></tr>
+              <tr><td>29/16</td><td>1</td><td>13</td><td>D</td><td>2</td></tr>
+              <tr><td>1/16</td><td>0</td><td>1</td><td>1</td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:6px">So <b>7562₁₀ = 1D8A₁₆</b></p>
+
+        <h3><i class="fa-solid fa-flask"></i> Example #2 — Convert 35631₁₀ to hex</h3>
+        <div class="d2h-scroll">
+          <table class="d2h-table">
+            <thead>
+              <tr>
+                <th>Division by 16</th>
+                <th>Quotient</th>
+                <th>Remainder (decimal)</th>
+                <th>Remainder (hex)</th>
+                <th>Digit #</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>35631/16</td><td>2226</td><td>15</td><td>F</td><td>0</td></tr>
+              <tr><td>2226/16</td><td>139</td><td>2</td><td>2</td><td>1</td></tr>
+              <tr><td>139/16</td><td>8</td><td>11</td><td>B</td><td>2</td></tr>
+              <tr><td>8/16</td><td>0</td><td>8</td><td>8</td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:6px">So <b>35631₁₀ = 8B2F₁₆</b></p>
+
+        <p class="small muted" style="margin-top:14px">
+          <i class="fa-solid fa-circle-info"></i>
+          You can enter decimals with e notation. e.g: <code>572 = 5.72e2</code>.
+        </p>
+      </div>
+
+      <!-- ============ 4. HEX TO BINARY CONVERTER (NEW) ============ -->
+      <div class="card">
+        <h2><i class="fa-solid fa-right-left"></i> Hex to Binary Converter</h2>
+        <p class="lead">
+          Convert between <b>Binary</b>, <b>Decimal</b>, <b>Octal</b>, <b>Hexadecimal</b>,
+          and <b>Text</b>. Choose the "From" and "To" bases, enter a value, and convert
+          instantly with digit grouping and a step-by-step calculation breakdown.
+        </p>
+
+        <!-- From / To dropdowns -->
+        <div class="grid2">
+          <div>
+            <label class="lbl" for="hbFrom">From</label>
+            <select id="hbFrom">
+              <option value="binary">Binary</option>
+              <option value="decimal">Decimal</option>
+              <option value="octal">Octal</option>
+              <option value="hex" selected>Hexadecimal</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl" for="hbTo">To</label>
+            <select id="hbTo">
+              <option value="binary" selected>Binary</option>
+              <option value="decimal">Decimal</option>
+              <option value="octal">Octal</option>
+              <option value="hex">Hexadecimal</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="hb-label-row">
+          <label class="lbl" for="hbInput">Enter hex number</label>
+          <span class="hb-base" id="hbFromBase">16</span>
+        </div>
+        <div class="ts-input-row">
+          <input type="text" id="hbInput" value="1D8A" placeholder="Enter hex number" spellcheck="false" autocomplete="off">
+        </div>
+
+        <!-- Result -->
+        <div class="hb-label-row">
+          <span class="lbl">Binary result</span>
+          <span class="hb-base" id="hbToBase">2</span>
+        </div>
+        <div class="hb-result-row">
+          <pre class="out-val" id="hbResultVal">—</pre>
+          <button class="mini" data-copy="hbResult" title="Copy"><i class="fa-regular fa-copy"></i></button>
+        </div>
+
+        <!-- The four derived numbers -->
+        <div class="hb-label-row">
+          <span class="lbl">Binary number</span>
+          <span class="hb-base">2</span>
+        </div>
+        <div class="hb-result-row">
+          <pre class="out-val" id="hbBinVal">—</pre>
+        </div>
+
+        <div class="hb-label-row">
+          <span class="lbl">Decimal number</span>
+          <span class="hb-base">10</span>
+        </div>
+        <div class="hb-result-row">
+          <pre class="out-val" id="hbDecVal">—</pre>
+        </div>
+
+        <div class="hb-label-row">
+          <span class="lbl">Octal number</span>
+          <span class="hb-base">8</span>
+        </div>
+        <div class="hb-result-row">
+          <pre class="out-val" id="hbOctVal">—</pre>
+        </div>
+
+        <div class="hb-label-row">
+          <span class="lbl">Hexadecimal number</span>
+          <span class="hb-base">16</span>
+        </div>
+        <div class="hb-result-row">
+          <pre class="out-val" id="hbHexVal">—</pre>
+        </div>
+
+        <!-- Digit grouping -->
+        <label class="lbl" for="hbGroup">Digit grouping</label>
+        <select id="hbGroup">
+          <option value="0">None</option>
+          <option value="4">4 digits</option>
+          <option value="8">8 digits</option>
+          <option value="16">16 digits</option>
+        </select>
+
+        <!-- Calculation -->
+        <label class="lbl" for="hbCalc">Calculation</label>
+        <div class="out">
+          <div class="out-head">
+            <span class="out-label">Step-by-step breakdown</span>
+            <span class="out-tools">
+              <button class="mini" data-copy="hbCalcTxt" title="Copy"><i class="fa-regular fa-copy"></i></button>
+            </span>
+          </div>
+          <pre class="out-val" id="hbCalc">—</pre>
+        </div>
+
+        <!-- Convert / Reset / Swap -->
+        <div class="btns">
+          <button class="btn btn-primary btn-sm" id="hbConvert">
+            <i class="fa-solid fa-calculator"></i> Convert
+          </button>
+          <button class="btn btn-sm" id="hbReset">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+
+        <!-- Large swap row -->
+        <div class="hb-swap-row">
+          <button class="mini" id="hbSwapBtn" title="Swap From and To" aria-label="Swap From and To">
+            <i class="fa-solid fa-right-left"></i>
+          </button>
+        </div>
+
+        <p class="small muted" style="margin-top:6px">
+          <i class="fa-solid fa-circle-info"></i>
+          Supports binary <code>0b…</code>, octal <code>0o…</code>, hex <code>0x…</code> prefixes,
+          underscores as visual separators, and UTF-8 text round-trips.
+        </p>
+      </div>
+
+      <!-- ============ 5. CURRENT EPOCH TIME IN CODE ============ -->
+      <div class="card">
+        <h2><i class="fa-solid fa-code"></i> Current Epoch Time in Code</h2>
+        <p class="lead">
+          The first line for each programming language shows how to get the current epoch time.
+          The second line shows how to convert an epoch timestamp to a human-readable date.
+          Replace the example epoch time <code>1800000000</code> with your own value.
+          All examples return the epoch timestamp in <b>seconds</b> (not milliseconds).
+        </p>
+        <div id="epochCodeList"></div>
+      </div>
+
+      <!-- ============ 6. MULTI-FORMAT ENCODER / DECODER ============ -->
       <div class="card">
         <h2><i class="fa-solid fa-arrows-rotate"></i> Multi-Format Encoder / Decoder</h2>
         <p class="lead">
@@ -503,7 +1064,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
 
       <div class="results" id="cvOut"></div>
 
-      <!-- ============ CODE OF THE CHOSEN METHOD ============ -->
+      <!-- ============ 7. CODE OF THE CHOSEN METHOD ============ -->
       <div class="card" id="cvCodeCard">
         <h3 style="margin-top:0"><i class="fa-solid fa-code"></i> Chosen Method — Source</h3>
         <p class="small muted" id="cvCodeDesc">Select a method to view its implementation.</p>
@@ -904,6 +1465,10 @@ ul.list b,ul.list strong{color:var(--base-content)}
           <li><b>Ciphers</b> — Caesar (configurable shift), ROT-13, Atbash, NATO phonetic alphabet and International Morse code.</li>
           <li><b>Transport encodings</b> — Base32 (RFC 4648), Base64, Base85/ASCII85, URL percent-encoding and HTML entities.</li>
           <li><b>Language games</b> — Pig Latin with case preservation and a reverse parser.</li>
+          <li><b>Unix Epoch Clock</b> — live seconds since 1970-01-01 UTC, with local, UTC, ISO 8601, millisecond and hex views.</li>
+          <li><b>Unix Hex Timestamp Converter</b> — bidirectional decimal ⇄ hexadecimal timestamp conversion with human-readable output.</li>
+          <li><b>Decimal to Hexadecimal Converter</b> — step-by-step division-by-16 remainders, little-endian / big-endian byte views, scientific notation support, and a full conversion table.</li>
+          <li><b>Hex to Binary Converter</b> — universal base converter between Binary / Decimal / Octal / Hexadecimal / Text, with digit grouping and a step-by-step calculation breakdown.</li>
         </ul>
 
         <h3><i class="fa-solid fa-shield-halved"></i> Encryption Key Types</h3>
@@ -991,7 +1556,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
 
   <footer>
     <div><i class="fa-solid fa-key"></i> HEX AI Key Gen — HEX AI key generation, no API key required.</div>
-    <div>100% client-side · Web Crypto</div>
+    <div>100% client-side · Web Crypto · Unix epoch clock</div>
   </footer>
 </div>
 
@@ -4650,6 +5215,959 @@ ul.list b,ul.list strong{color:var(--base-content)}
     }
 
     /* ============================================================
+       13b. UNIX EPOCH CLOCK + HEX TIMESTAMP CONVERTER
+       ============================================================ */
+    let epochPaused = false;
+    let epochTimer = null;
+
+    function pad0(n, w) {
+        let s = String(n);
+        while (s.length < w) s = '0' + s;
+        return s;
+    }
+
+    function updateEpochClock() {
+        const now = new Date();
+        const ms = now.getTime();
+        const secs = Math.floor(ms / 1000);
+        const hex = secs.toString(16).toUpperCase();
+        const hexPadded = pad0(hex, 8);
+
+        const d = document.getElementById('epochDigits');
+        if (d) d.textContent = String(secs);
+
+        const l = document.getElementById('epochLocal');
+        if (l) l.textContent = now.toLocaleString();
+
+        const u = document.getElementById('epochUtc');
+        if (u) u.textContent = now.toUTCString();
+
+        const i = document.getElementById('epochIso');
+        if (i) i.textContent = now.toISOString();
+
+        const m = document.getElementById('epochMs');
+        if (m) m.textContent = String(ms);
+
+        const h = document.getElementById('epochHex');
+        if (h) h.textContent = hexPadded + '  (0x' + hex + ')';
+
+        COPY_STORE.set('epochNow', String(secs));
+        COPY_STORE.set('epochNowMs', String(ms));
+    }
+
+    function scheduleEpochTick() {
+        if (epochPaused) return;
+        const delay = 1000 - (Date.now() % 1000);
+        epochTimer = setTimeout(function () {
+            updateEpochClock();
+            scheduleEpochTick();
+        }, delay);
+    }
+
+    function toggleEpochPause() {
+        epochPaused = !epochPaused;
+        const btn = document.getElementById('epochPauseBtn');
+        if (epochPaused) {
+            clearTimeout(epochTimer);
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i> Resume';
+            toast('Clock paused', 'fa-pause');
+        } else {
+            updateEpochClock();
+            scheduleEpochTick();
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+            toast('Clock resumed', 'fa-play');
+        }
+    }
+
+    function setTsResult(text) {
+        const el = document.getElementById('tsResultVal');
+        if (el) el.textContent = text;
+        COPY_STORE.set('tsResult', text);
+    }
+
+    function formatTsResult(dec, hexRaw) {
+        const hex = String(hexRaw).toUpperCase();
+        const hexPadded = pad0(hex, 8);
+        const d = new Date(dec * 1000);
+        const ok = !isNaN(d.getTime());
+        return 'DECIMAL     : ' + dec + '\n' +
+               'HEX         : ' + hex + '\n' +
+               'HEX (8 pad) : ' + hexPadded + '\n' +
+               '0x prefix   : 0x' + hex + '\n' +
+               '\n' +
+               'LOCAL       : ' + (ok ? d.toLocaleString() : 'Out of range') + '\n' +
+               'UTC         : ' + (ok ? d.toUTCString() : 'Out of range') + '\n' +
+               'ISO 8601    : ' + (ok ? d.toISOString() : 'Out of range') + '\n' +
+               'MILLISEC    : ' + (dec * 1000);
+    }
+
+    function tsDecimalToHex() {
+        const input = document.getElementById('tsDecInput');
+        if (!input) return;
+        const raw = input.value.trim();
+        if (!/^-?\d+$/.test(raw)) {
+            setTsResult('Error: "' + raw + '" is not a valid decimal timestamp.');
+            toast('Invalid decimal timestamp', 'fa-triangle-exclamation');
+            return;
+        }
+        const n = parseInt(raw, 10);
+        if (!isFinite(n) || Math.abs(n) > Number.MAX_SAFE_INTEGER) {
+            setTsResult('Error: value out of safe integer range.');
+            return;
+        }
+        const hex = n < 0 ? '-' + Math.abs(n).toString(16) : n.toString(16);
+        setTsResult(formatTsResult(n, hex));
+        toast('Converted decimal → hex', 'fa-arrow-right');
+    }
+
+    function tsHexToDecimal() {
+        const input = document.getElementById('tsHexInput');
+        if (!input) return;
+        const raw = input.value.trim();
+        const neg = raw.charAt(0) === '-';
+        const clean = raw.replace(/^-/, '').replace(/^0x/i, '').replace(/[^0-9a-fA-F]/g, '');
+        if (!clean) {
+            setTsResult('Error: "' + raw + '" is not a valid hexadecimal timestamp.');
+            toast('Invalid hex timestamp', 'fa-triangle-exclamation');
+            return;
+        }
+        let n = parseInt(clean, 16);
+        if (neg) n = -n;
+        if (!isFinite(n) || Math.abs(n) > Number.MAX_SAFE_INTEGER) {
+            setTsResult('Error: value out of safe integer range.');
+            return;
+        }
+        setTsResult(formatTsResult(n, clean));
+        toast('Converted hex → decimal', 'fa-arrow-left');
+    }
+
+    function tsUseCurrentInDec() {
+        const input = document.getElementById('tsDecInput');
+        if (!input) return;
+        input.value = String(Math.floor(Date.now() / 1000));
+        tsDecimalToHex();
+    }
+
+    function tsUseCurrentInHex() {
+        const input = document.getElementById('tsHexInput');
+        if (!input) return;
+        input.value = Math.floor(Date.now() / 1000).toString(16).toUpperCase();
+        tsHexToDecimal();
+    }
+
+    /* ---------- Epoch code snippets ---------- */
+    const EPOCH_SNIPPETS = [
+        {
+            id: 'javascript',
+            name: 'JavaScript',
+            icon: 'fa-brands fa-js',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'Math.floor(new Date().getTime()/1000.0)\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'new Date(1800000000*1000).toLocaleString()'
+        },
+        {
+            id: 'dart',
+            name: 'Dart / Flutter',
+            icon: 'fa-solid fa-mobile-screen',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'DateTime.now().millisecondsSinceEpoch ~/ 1000\n' +
+'\n' +
+'// Get current epoch (microseconds)\n' +
+'DateTime.now().microsecondsSinceEpoch\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'DateTime.fromMillisecondsSinceEpoch(1800000000*1000)'
+        },
+        {
+            id: 'python',
+            name: 'Python',
+            icon: 'fa-brands fa-python',
+            snippet:
+'# Get current epoch (seconds)\n' +
+'import time\n' +
+'int(time.time())\n' +
+'\n' +
+'# Convert epoch to human-readable date\n' +
+'import datetime\n' +
+'datetime.datetime.fromtimestamp(1800000000).strftime("%Y-%m-%d %H:%M:%S")'
+        },
+        {
+            id: 'go',
+            name: 'Go',
+            icon: 'fa-brands fa-golang',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'time.Now().Unix()\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'time.Unix(1800000000, 0).Format(time.RFC1123)'
+        },
+        {
+            id: 'rust',
+            name: 'Rust',
+            icon: 'fa-brands fa-rust',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs()\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'chrono::DateTime::from_timestamp(1800000000, 0).unwrap()'
+        },
+        {
+            id: 'java',
+            name: 'Java',
+            icon: 'fa-brands fa-java',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'System.currentTimeMillis() / 1000\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")\n' +
+'    .format(new java.util.Date(1800000000L * 1000))'
+        },
+        {
+            id: 'csharp',
+            name: 'C# / .NET',
+            icon: 'fa-solid fa-hashtag',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'DateTimeOffset.UtcNow.ToUnixTimeSeconds()\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'DateTimeOffset.FromUnixTimeSeconds(1800000000).UtcDateTime.ToString("u")'
+        },
+        {
+            id: 'php',
+            name: 'PHP',
+            icon: 'fa-brands fa-php',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'time()\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'date("Y-m-d H:i:s", 1800000000)'
+        },
+        {
+            id: 'ruby',
+            name: 'Ruby',
+            icon: 'fa-solid fa-gem',
+            snippet:
+'# Get current epoch (seconds)\n' +
+'Time.now.to_i\n' +
+'\n' +
+'# Convert epoch to human-readable date\n' +
+'Time.at(1800000000).to_s'
+        },
+        {
+            id: 'swift',
+            name: 'Swift',
+            icon: 'fa-brands fa-swift',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'Int(Date().timeIntervalSince1970)\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'Date(timeIntervalSince1970: 1800000000).description'
+        },
+        {
+            id: 'kotlin',
+            name: 'Kotlin',
+            icon: 'fa-brands fa-android',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'System.currentTimeMillis() / 1000\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")\n' +
+'    .format(java.util.Date(1800000000L * 1000))'
+        },
+        {
+            id: 'bash',
+            name: 'Bash / Shell',
+            icon: 'fa-solid fa-terminal',
+            snippet:
+'# Get current epoch (seconds)\n' +
+'date +%s\n' +
+'\n' +
+'# Convert epoch to human-readable date\n' +
+'date -d @1800000000'
+        },
+        {
+            id: 'powershell',
+            name: 'PowerShell',
+            icon: 'fa-solid fa-terminal',
+            snippet:
+'# Get current epoch (seconds)\n' +
+'[DateTimeOffset]::UtcNow.ToUnixTimeSeconds()\n' +
+'\n' +
+'# Convert epoch to human-readable date\n' +
+'[DateTimeOffset]::FromUnixTimeSeconds(1800000000).UtcDateTime'
+        },
+        {
+            id: 'sql',
+            name: 'SQL (PostgreSQL)',
+            icon: 'fa-solid fa-database',
+            snippet:
+'-- Get current epoch (seconds)\n' +
+'SELECT EXTRACT(EPOCH FROM NOW())::BIGINT;\n' +
+'\n' +
+'-- Convert epoch to human-readable date\n' +
+'SELECT TO_TIMESTAMP(1800000000);'
+        },
+        {
+            id: 'lua',
+            name: 'Lua',
+            icon: 'fa-solid fa-moon',
+            snippet:
+'-- Get current epoch (seconds)\n' +
+'os.time()\n' +
+'\n' +
+'-- Convert epoch to human-readable date\n' +
+'os.date("%Y-%m-%d %H:%M:%S", 1800000000)'
+        },
+        {
+            id: 'perl',
+            name: 'Perl',
+            icon: 'fa-solid fa-code',
+            snippet:
+'# Get current epoch (seconds)\n' +
+'time()\n' +
+'\n' +
+'# Convert epoch to human-readable date\n' +
+'scalar localtime(1800000000)'
+        },
+        {
+            id: 'c',
+            name: 'C',
+            icon: 'fa-solid fa-code',
+            snippet:
+'// Get current epoch (seconds)\n' +
+'time_t now = time(NULL);\n' +
+'\n' +
+'// Convert epoch to human-readable date\n' +
+'time_t t = 1800000000;\n' +
+'char *s = ctime(&t);'
+        }
+    ];
+
+    function renderEpochCodeSnippets() {
+        const container = document.getElementById('epochCodeList');
+        if (!container) return;
+        let html = '';
+        EPOCH_SNIPPETS.forEach(function (s) {
+            const copyId = 'epochCode_' + s.id;
+            COPY_STORE.set(copyId, s.snippet);
+            html += '<div class="lang-block">';
+            html += '<div class="out-head">';
+            html += '<span class="out-label"><i class="' + s.icon + ' lang-icon"></i>' + esc(s.name) + '</span>';
+            html += '<span class="out-tools">' +
+                    '<button class="mini" data-copy="' + copyId + '" title="Copy"><i class="fa-regular fa-copy"></i></button>' +
+                    '</span>';
+            html += '</div>';
+            html += '<pre class="out-val">' + esc(s.snippet) + '</pre>';
+            html += '</div>';
+        });
+        container.innerHTML = html;
+    }
+
+    /* ============================================================
+       13c. DECIMAL TO HEXADECIMAL CONVERTER
+       ============================================================ */
+
+    /* Static table text for the copy button */
+    const D2H_TABLE_TEXT =
+'Decimal (base 10) | Hex (base 16)\n' +
+'--------------------------------\n' +
+'0    | 0\n' +
+'1    | 1\n' +
+'2    | 2\n' +
+'3    | 3\n' +
+'4    | 4\n' +
+'5    | 5\n' +
+'6    | 6\n' +
+'7    | 7\n' +
+'8    | 8\n' +
+'9    | 9\n' +
+'10   | A\n' +
+'11   | B\n' +
+'12   | C\n' +
+'13   | D\n' +
+'14   | E\n' +
+'15   | F\n' +
+'16   | 10\n' +
+'17   | 11\n' +
+'18   | 12\n' +
+'19   | 13\n' +
+'20   | 14\n' +
+'21   | 15\n' +
+'22   | 16\n' +
+'23   | 17\n' +
+'24   | 18\n' +
+'25   | 19\n' +
+'26   | 1A\n' +
+'27   | 1B\n' +
+'28   | 1C\n' +
+'29   | 1D\n' +
+'30   | 1E\n' +
+'40   | 28\n' +
+'50   | 32\n' +
+'60   | 3C\n' +
+'70   | 46\n' +
+'80   | 50\n' +
+'90   | 5A\n' +
+'100  | 64\n' +
+'200  | C8\n' +
+'1000 | 3E8\n' +
+'2000 | 7D0';
+
+    function parseDecimalInput(raw) {
+        const s = String(raw || '').trim();
+        if (!s) return { ok: false, reason: 'empty' };
+
+        // Support e notation: 5.72e2 → 572
+        if (/^-?\d+(\.\d+)?[eE][+-]?\d+$/.test(s)) {
+            const n = Number(s);
+            if (!isFinite(n)) return { ok: false, reason: 'not finite' };
+            return { ok: true, value: n, source: s, notation: 'e-notation' };
+        }
+
+        // Plain decimal
+        if (/^-?\d+$/.test(s)) {
+            const n = parseInt(s, 10);
+            if (!isFinite(n)) return { ok: false, reason: 'not finite' };
+            if (Math.abs(n) > Number.MAX_SAFE_INTEGER) {
+                return { ok: false, reason: 'out of safe integer range' };
+            }
+            return { ok: true, value: n, source: s, notation: 'plain' };
+        }
+
+        // Decimal with fraction (truncate to integer)
+        if (/^-?\d+\.\d+$/.test(s)) {
+            const n = parseFloat(s);
+            if (!isFinite(n)) return { ok: false, reason: 'not finite' };
+            return { ok: true, value: n, source: s, notation: 'fractional' };
+        }
+
+        return { ok: false, reason: 'unrecognised format' };
+    }
+
+    function renderD2HSteps(absInt, negative, hexValue) {
+        const container = document.getElementById('d2hSteps');
+        if (!container) return;
+
+        if (absInt === 0) {
+            container.innerHTML =
+                '<div class="out" style="margin-top:12px">' +
+                  '<div class="out-head"><span class="out-label">Decimal to hex calculation steps</span></div>' +
+                  '<p class="small muted" style="margin:0 0 8px">Divide by the base 16 to get the digits from the remainders:</p>' +
+                  '<div class="d2h-scroll"><table class="d2h-table">' +
+                    '<thead><tr>' +
+                      '<th>Division by 16</th><th>Quotient</th><th>Remainder (Digit)</th><th>Digit #</th>' +
+                    '</tr></thead>' +
+                    '<tbody><tr><td>0/16</td><td>0</td><td>0 (0)</td><td>0</td></tr></tbody>' +
+                  '</table></div>' +
+                  '<p class="small" style="margin:8px 0 0">So 0<sub>10</sub> = 0<sub>16</sub></p>' +
+                '</div>';
+            return;
+        }
+
+        // Build the division steps
+        const steps = [];
+        let q = absInt;
+        let digit = 0;
+        while (q > 0) {
+            const rem = q % 16;
+            const nextQ = Math.floor(q / 16);
+            steps.push({
+                div: q + '/16',
+                q: nextQ,
+                rem: rem,
+                hex: rem.toString(16).toUpperCase(),
+                digit: digit
+            });
+            q = nextQ;
+            digit++;
+        }
+
+        let rows = '';
+        steps.forEach(function (s) {
+            rows += '<tr>' +
+                '<td>' + esc(s.div) + '</td>' +
+                '<td>' + esc(String(s.q)) + '</td>' +
+                '<td>' + esc(String(s.rem)) + ' (' + esc(s.hex) + ')</td>' +
+                '<td>' + esc(String(s.digit)) + '</td>' +
+            '</tr>';
+        });
+
+        const display = (negative ? '-' : '') + hexValue;
+
+        container.innerHTML =
+            '<div class="out" style="margin-top:12px">' +
+              '<div class="out-head"><span class="out-label">Decimal to hex calculation steps</span></div>' +
+              '<p class="small muted" style="margin:0 0 8px">Divide by the base 16 to get the digits from the remainders:</p>' +
+              '<div class="d2h-scroll"><table class="d2h-table">' +
+                '<thead><tr>' +
+                  '<th>Division by 16</th><th>Quotient</th><th>Remainder (Digit)</th><th>Digit #</th>' +
+                '</tr></thead>' +
+                '<tbody>' + rows + '</tbody>' +
+              '</table></div>' +
+              '<p class="small" style="margin:8px 0 0">So <b>' + esc(display) + '<sub>10</sub> = ' + esc(display) + '<sub>16</sub></b></p>' +
+            '</div>';
+    }
+
+    function renderD2HEndian(hexValue, absInt) {
+        const container = document.getElementById('d2hEndian');
+        if (!container) return;
+
+        // Pad to even number of hex digits
+        let hexPadded = hexValue.toUpperCase();
+        if (hexPadded.length % 2 !== 0) hexPadded = '0' + hexPadded;
+        if (hexPadded.length === 0) hexPadded = '00';
+
+        // Cap to 16 hex chars (8 bytes) for display
+        if (hexPadded.length > 16) {
+            hexPadded = hexPadded.slice(-16);
+        }
+
+        const bytes = [];
+        for (let i = 0; i < hexPadded.length; i += 2) {
+            bytes.push(hexPadded.substring(i, i + 2));
+        }
+        const littleEndian = bytes.slice().reverse();
+
+        function byteChips(arr) {
+            return arr.map(function (b) {
+                return '<span style="background:var(--base-300);padding:4px 8px;border-radius:6px;border:1px solid var(--line);font-family:var(--mono);font-size:12px">' +
+                       esc(b) + '</span>';
+            }).join('');
+        }
+
+        container.innerHTML =
+            '<div class="out" style="margin-top:12px">' +
+              '<div class="out-head"><span class="out-label">Endianness view</span></div>' +
+              '<div class="grid2" style="gap:12px">' +
+                '<div>' +
+                  '<div class="out-label" style="margin-bottom:6px">Little endian</div>' +
+                  '<div style="display:flex;gap:4px;flex-wrap:wrap">' + byteChips(littleEndian) + '</div>' +
+                '</div>' +
+                '<div>' +
+                  '<div class="out-label" style="margin-bottom:6px">Big endian</div>' +
+                  '<div style="display:flex;gap:4px;flex-wrap:wrap">' + byteChips(bytes) + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+    }
+
+    function runDecimalToHex() {
+        const inputEl = document.getElementById('d2hDec');
+        const hexEl   = document.getElementById('d2hHex');
+        if (!inputEl || !hexEl) return;
+
+        const raw = inputEl.value;
+        const parsed = parseDecimalInput(raw);
+
+        if (!parsed.ok) {
+            hexEl.value = 'Invalid';
+            COPY_STORE.set('d2hHexVal', 'Invalid');
+            const stepsEl = document.getElementById('d2hSteps');
+            if (stepsEl) {
+                stepsEl.innerHTML =
+                    '<div class="out" style="margin-top:12px">' +
+                      '<div class="out-head"><span class="out-label">Error</span></div>' +
+                      '<pre class="out-val">Enter a valid decimal number (e.g. 7562, 35631 or 5.72e2).</pre>' +
+                    '</div>';
+            }
+            const endEl = document.getElementById('d2hEndian');
+            if (endEl) endEl.innerHTML = '';
+            toast('Invalid decimal input', 'fa-triangle-exclamation');
+            return;
+        }
+
+        const value = parsed.value;
+        const negative = value < 0;
+        const absInt = Math.floor(Math.abs(value));
+
+        let hexValue = absInt.toString(16).toUpperCase();
+        if (hexValue === '') hexValue = '0';
+
+        const displayHex = (negative ? '-' : '') + hexValue;
+
+        hexEl.value = displayHex;
+        COPY_STORE.set('d2hHexVal', displayHex);
+
+        renderD2HSteps(absInt, negative, hexValue);
+        renderD2HEndian(hexValue, absInt);
+
+        toast('Converted decimal → hex', 'fa-calculator');
+    }
+
+    function setD2HExample(value) {
+        const inputEl = document.getElementById('d2hDec');
+        if (inputEl) inputEl.value = String(value);
+        runDecimalToHex();
+    }
+
+    /* ============================================================
+       13d. HEX TO BINARY CONVERTER (NEW)
+       Universal base converter between
+       Binary / Decimal / Octal / Hexadecimal / Text.
+       ============================================================ */
+
+    const HB_DIGITS = '0123456789ABCDEF';
+
+    function hbBaseName(base) {
+        switch (base) {
+            case 'binary':  return 'Binary (2)';
+            case 'decimal': return 'Decimal (10)';
+            case 'octal':   return 'Octal (8)';
+            case 'hex':     return 'Hexadecimal (16)';
+            case 'text':    return 'Text (UTF-8)';
+            default:        return base;
+        }
+    }
+
+    function hbBaseRadix(base) {
+        switch (base) {
+            case 'binary':  return 2;
+            case 'decimal': return 10;
+            case 'octal':   return 8;
+            case 'hex':     return 16;
+            default:        return null;
+        }
+    }
+
+    function hbBaseIndicator(base) {
+        switch (base) {
+            case 'binary':  return '2';
+            case 'decimal': return '10';
+            case 'octal':   return '8';
+            case 'hex':     return '16';
+            case 'text':    return 'A';
+            default:        return '?';
+        }
+    }
+
+    function hbPlaceholder(base) {
+        switch (base) {
+            case 'binary':  return 'e.g. 1101010';
+            case 'decimal': return 'e.g. 7562';
+            case 'octal':   return 'e.g. 16612';
+            case 'hex':     return 'e.g. 1D8A';
+            case 'text':    return 'e.g. Hello World';
+            default:        return 'Enter value';
+        }
+    }
+
+    /* Parse a value in the given base into a BigInt.
+       Returns { ok, value (BigInt), source } or { ok:false, reason }. */
+    function hbParseValue(raw, base) {
+        const s = String(raw == null ? '' : raw);
+
+        if (base === 'text') {
+            // Text → BigInt via UTF-8 bytes (big-endian)
+            const bytes = new TextEncoder().encode(s);
+            let n = 0n;
+            for (let i = 0; i < bytes.length; i++) {
+                n = (n << 8n) | BigInt(bytes[i]);
+            }
+            return { ok: true, value: n, source: s };
+        }
+
+        const radix = hbBaseRadix(base);
+        if (radix == null) return { ok: false, reason: 'unknown base' };
+
+        // Normalise input
+        let body = s.trim();
+        if (!body) return { ok: false, reason: 'empty input' };
+
+        // Strip common prefixes
+        if (radix === 16 && /^0x/i.test(body)) body = body.replace(/^0x/i, '');
+        else if (radix === 2 && /^0b/i.test(body)) body = body.replace(/^0b/i, '');
+        else if (radix === 8 && /^0o/i.test(body)) body = body.replace(/^0o/i, '');
+
+        // Allow underscores and whitespace as visual separators
+        body = body.replace(/[\s_]+/g, '');
+
+        if (!body) return { ok: false, reason: 'empty input' };
+
+        // Support negative numbers
+        let negative = false;
+        if (body.charAt(0) === '-') {
+            negative = true;
+            body = body.slice(1);
+        } else if (body.charAt(0) === '+') {
+            body = body.slice(1);
+        }
+
+        let n = 0n;
+        const bigRadix = BigInt(radix);
+        for (let i = 0; i < body.length; i++) {
+            const ch = body.charAt(i).toUpperCase();
+            const idx = HB_DIGITS.indexOf(ch);
+            if (idx === -1 || idx >= radix) {
+                return {
+                    ok: false,
+                    reason: 'invalid digit "' + body.charAt(i) + '" for base ' + radix
+                };
+            }
+            n = n * bigRadix + BigInt(idx);
+        }
+
+        if (negative) n = -n;
+
+        return { ok: true, value: n, source: s };
+    }
+
+    /* Format a BigInt into the given base. */
+    function hbFormatValue(n, base) {
+        if (base === 'text') {
+            if (n === 0n) return '';
+            let x = n;
+            let negative = false;
+            if (x < 0n) { negative = true; x = -x; }
+            const bytes = [];
+            while (x > 0n) {
+                bytes.unshift(Number(x & 0xFFn));
+                x >>= 8n;
+            }
+            try {
+                const decoded = new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
+                return (negative ? '-' : '') + decoded;
+            } catch (_) {
+                return (negative ? '-' : '') + bytes.map(b => String.fromCharCode(b)).join('');
+            }
+        }
+
+        const radix = hbBaseRadix(base);
+        if (radix == null) return '';
+
+        let x = n;
+        let negative = false;
+        if (x < 0n) { negative = true; x = -x; }
+
+        if (x === 0n) return negative ? '-0' : '0';
+
+        const bigRadix = BigInt(radix);
+        let out = '';
+        while (x > 0n) {
+            out = HB_DIGITS.charAt(Number(x % bigRadix)) + out;
+            x /= bigRadix;
+        }
+        return (negative ? '-' : '') + out;
+    }
+
+    function hbGroupDigits(str, size) {
+        if (!size || size <= 0) return str;
+        if (!str) return str;
+        const negative = str.charAt(0) === '-';
+        const body = negative ? str.slice(1) : str;
+        const parts = [];
+        for (let i = 0; i < body.length; i += size) {
+            parts.push(body.slice(i, i + size));
+        }
+        return (negative ? '-' : '') + parts.join(' ');
+    }
+
+    function hbBuildCalculation(parsed, n, fromBase, toBase) {
+        const lines = [];
+        lines.push('Converting: "' + parsed.source + '"');
+        lines.push('From base:  ' + hbBaseName(fromBase));
+        lines.push('To base:    ' + hbBaseName(toBase));
+        lines.push('');
+
+        // Show intermediate decimal
+        const decStr = hbFormatValue(n, 'decimal');
+        lines.push('Intermediate value (decimal): ' + decStr);
+        lines.push('');
+
+        // Division-based steps for binary / octal / hex
+        if (toBase === 'binary' || toBase === 'octal' || toBase === 'hex') {
+            const radix = hbBaseRadix(toBase);
+            const radixName = toBase === 'binary' ? 'Binary (2)'
+                            : toBase === 'octal' ? 'Octal (8)'
+                            : 'Hexadecimal (16)';
+            lines.push(radixName + ' digits (LSB first) — divide by ' + radix + ':');
+
+            let x = n;
+            let negative = false;
+            if (x < 0n) { negative = true; x = -x; }
+            if (x === 0n) {
+                lines.push('  0 / ' + radix + ' = 0 remainder 0  → digit 0');
+            } else {
+                let i = 0;
+                const bigRadix = BigInt(radix);
+                while (x > 0n && i < 128) {
+                    const rem = x % bigRadix;
+                    const q = x / bigRadix;
+                    lines.push(
+                        '  ' + x.toString() + ' / ' + radix +
+                        ' = ' + q.toString() +
+                        ' remainder ' + rem.toString() +
+                        ' (' + HB_DIGITS.charAt(Number(rem)) + ')' +
+                        '  → digit ' + i
+                    );
+                    x = q;
+                    i++;
+                }
+            }
+            if (negative) {
+                lines.push('  (negative sign applies to the whole value)');
+            }
+            lines.push('');
+        }
+
+        // ASCII / text hint for the decimal representation
+        if (toBase === 'text') {
+            const t = hbFormatValue(n, 'text');
+            lines.push('Text (UTF-8 big-endian bytes):');
+            const bytes = new TextEncoder().encode(t);
+            for (let i = 0; i < bytes.length && i < 64; i++) {
+                lines.push('  byte ' + i + ' = ' + bytes[i] + ' = 0x' +
+                    bytes[i].toString(16).toUpperCase().padStart(2, '0'));
+            }
+            if (bytes.length > 64) lines.push('  … (' + (bytes.length - 64) + ' more bytes)');
+            lines.push('');
+        }
+
+        lines.push('Binary      : ' + hbFormatValue(n, 'binary'));
+        lines.push('Decimal     : ' + hbFormatValue(n, 'decimal'));
+        lines.push('Octal       : ' + hbFormatValue(n, 'octal'));
+        lines.push('Hexadecimal : ' + hbFormatValue(n, 'hex'));
+
+        return lines.join('\n');
+    }
+
+    function runHexBinaryConvert() {
+        const fromSel  = document.getElementById('hbFrom');
+        const toSel    = document.getElementById('hbTo');
+        const inputEl  = document.getElementById('hbInput');
+        const groupEl  = document.getElementById('hbGroup');
+
+        const fromBase = fromSel ? fromSel.value : 'hex';
+        const toBase   = toSel ? toSel.value : 'binary';
+        const raw      = inputEl ? inputEl.value : '';
+        const groupSize = groupEl ? (parseInt(groupEl.value, 10) || 0) : 0;
+
+        // Update base indicators + placeholder
+        const fromBaseEl = document.getElementById('hbFromBase');
+        const toBaseEl   = document.getElementById('hbToBase');
+        if (fromBaseEl) fromBaseEl.textContent = hbBaseIndicator(fromBase);
+        if (toBaseEl)   toBaseEl.textContent   = hbBaseIndicator(toBase);
+
+        if (inputEl) {
+            inputEl.setAttribute('placeholder', hbPlaceholder(fromBase));
+        }
+
+        const parsed = hbParseValue(raw, fromBase);
+
+        const resultEl = document.getElementById('hbResultVal');
+        const binEl    = document.getElementById('hbBinVal');
+        const decEl    = document.getElementById('hbDecVal');
+        const octEl    = document.getElementById('hbOctVal');
+        const hexEl    = document.getElementById('hbHexVal');
+        const calcEl   = document.getElementById('hbCalc');
+
+        if (!parsed.ok) {
+            const msg = 'Error: ' + parsed.reason;
+            if (resultEl) resultEl.textContent = msg;
+            if (binEl)    binEl.textContent = '—';
+            if (decEl)    decEl.textContent = '—';
+            if (octEl)    octEl.textContent = '—';
+            if (hexEl)    hexEl.textContent = '—';
+            if (calcEl)   calcEl.textContent = msg;
+            COPY_STORE.set('hbResult', '');
+            COPY_STORE.set('hbCalcTxt', msg);
+            toast('Invalid ' + fromBase + ' input', 'fa-triangle-exclamation');
+            return;
+        }
+
+        const n = parsed.value;
+
+        // Compute all representations
+        const binRaw = hbFormatValue(n, 'binary');
+        const decRaw = hbFormatValue(n, 'decimal');
+        const octRaw = hbFormatValue(n, 'octal');
+        const hexRaw = hbFormatValue(n, 'hex');
+        const txtRaw = hbFormatValue(n, 'text');
+
+        // Display values — grouping only applied to the target base if it
+        // is binary / octal / hex (numeric digit grouping makes no sense for text)
+        const binDisp = hbGroupDigits(binRaw, (toBase === 'binary')  ? groupSize : 0) || '0';
+        const decDisp = decRaw || '0';
+        const octDisp = hbGroupDigits(octRaw, (toBase === 'octal')   ? groupSize : 0) || '0';
+        const hexDisp = hbGroupDigits(hexRaw, (toBase === 'hex')     ? groupSize : 0) || '0';
+
+        // Main result
+        let result = '';
+        switch (toBase) {
+            case 'binary':  result = hbGroupDigits(binRaw, groupSize) || '0'; break;
+            case 'decimal': result = decRaw || '0'; break;
+            case 'octal':   result = hbGroupDigits(octRaw, groupSize) || '0'; break;
+            case 'hex':     result = hbGroupDigits(hexRaw, groupSize) || '0'; break;
+            case 'text':    result = txtRaw || '(empty)'; break;
+            default:        result = '(unknown target base)';
+        }
+
+        if (resultEl) resultEl.textContent = result;
+        if (binEl)    binEl.textContent = binDisp;
+        if (decEl)    decEl.textContent = decDisp;
+        if (octEl)    octEl.textContent = octDisp;
+        if (hexEl)    hexEl.textContent = hexDisp;
+
+        // Calculation breakdown
+        const calc = hbBuildCalculation(parsed, n, fromBase, toBase);
+        if (calcEl) calcEl.textContent = calc;
+
+        // Copy store
+        COPY_STORE.set('hbResult', result);
+        COPY_STORE.set('hbCalcTxt', calc);
+
+        toast('Converted ' + hbBaseName(fromBase) + ' → ' + hbBaseName(toBase), 'fa-right-left');
+    }
+
+    function resetHexBinaryConverter() {
+        const fromSel  = document.getElementById('hbFrom');
+        const toSel    = document.getElementById('hbTo');
+        const inputEl  = document.getElementById('hbInput');
+        const groupEl  = document.getElementById('hbGroup');
+
+        if (fromSel) fromSel.value = 'hex';
+        if (toSel)   toSel.value   = 'binary';
+        if (inputEl) inputEl.value = '1D8A';
+        if (groupEl) groupEl.value = '0';
+
+        runHexBinaryConvert();
+        toast('Reset hex → binary converter', 'fa-rotate-left');
+    }
+
+    function swapHexBinaryConverter() {
+        const fromSel = document.getElementById('hbFrom');
+        const toSel   = document.getElementById('hbTo');
+        const inputEl = document.getElementById('hbInput');
+        if (!fromSel || !toSel || !inputEl) return;
+
+        const oldFrom = fromSel.value;
+        const oldTo   = toSel.value;
+
+        // Swap From and To
+        fromSel.value = oldTo;
+        toSel.value   = oldFrom;
+
+        // Move current result into input for a natural round-trip
+        const resultEl = document.getElementById('hbResultVal');
+        if (resultEl && resultEl.textContent && resultEl.textContent !== '—') {
+            inputEl.value = resultEl.textContent;
+        }
+
+        runHexBinaryConvert();
+        toast('Swapped ' + hbBaseName(oldFrom) + ' ⇄ ' + hbBaseName(oldTo), 'fa-right-left');
+    }
+
+    /* ============================================================
        14. EVENT WIRING
        ============================================================ */
     function wireEvents() {
@@ -4728,7 +6246,108 @@ ul.list b,ul.list strong{color:var(--base-content)}
             $('#mpLog').textContent = '';
         });
 
-        /* ---- Converter panel ---- */
+        /* ---- Epoch clock ---- */
+        const epochPauseBtn = $('#epochPauseBtn');
+        if (epochPauseBtn) epochPauseBtn.addEventListener('click', toggleEpochPause);
+
+        const epochUseNow = $('#epochUseNow');
+        if (epochUseNow) {
+            epochUseNow.addEventListener('click', function () {
+                const inp = $('#tsDecInput');
+                if (inp) inp.value = String(Math.floor(Date.now() / 1000));
+                tsDecimalToHex();
+                const card = $('#tsDecInput');
+                if (card && card.scrollIntoView) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
+
+        /* ---- Unix hex timestamp converter ---- */
+        const tsDecToHexBtn = $('#tsDecToHex');
+        if (tsDecToHexBtn) tsDecToHexBtn.addEventListener('click', tsDecimalToHex);
+
+        const tsHexToDecBtn = $('#tsHexToDec');
+        if (tsHexToDecBtn) tsHexToDecBtn.addEventListener('click', tsHexToDecimal);
+
+        const tsDecNowBtn = $('#tsDecNow');
+        if (tsDecNowBtn) tsDecNowBtn.addEventListener('click', tsUseCurrentInDec);
+
+        const tsHexNowBtn = $('#tsHexNow');
+        if (tsHexNowBtn) tsHexNowBtn.addEventListener('click', tsUseCurrentInHex);
+
+        const tsDecInput = $('#tsDecInput');
+        if (tsDecInput) {
+            tsDecInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); tsDecimalToHex(); }
+            });
+        }
+
+        const tsHexInput = $('#tsHexInput');
+        if (tsHexInput) {
+            tsHexInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); tsHexToDecimal(); }
+            });
+        }
+
+        /* ---- Decimal to Hex converter ---- */
+        const d2hRunBtn = $('#d2hRun');
+        if (d2hRunBtn) d2hRunBtn.addEventListener('click', runDecimalToHex);
+
+        const d2hNowBtn = $('#d2hNow');
+        if (d2hNowBtn) d2hNowBtn.addEventListener('click', runDecimalToHex);
+
+        const d2hEx1 = $('#d2hExample1');
+        if (d2hEx1) d2hEx1.addEventListener('click', function () { setD2HExample(7562); });
+
+        const d2hEx2 = $('#d2hExample2');
+        if (d2hEx2) d2hEx2.addEventListener('click', function () { setD2HExample(35631); });
+
+        const d2hEnot = $('#d2hEnot');
+        if (d2hEnot) d2hEnot.addEventListener('click', function () {
+            const inputEl = document.getElementById('d2hDec');
+            if (inputEl) inputEl.value = '5.72e2';
+            runDecimalToHex();
+        });
+
+        const d2hDecInput = $('#d2hDec');
+        if (d2hDecInput) {
+            d2hDecInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); runDecimalToHex(); }
+            });
+        }
+
+        /* Register static table text for copy */
+        COPY_STORE.set('d2hTableTxt', D2H_TABLE_TEXT);
+
+        /* ---- Hex to Binary converter (NEW) ---- */
+        const hbConvertBtn = $('#hbConvert');
+        if (hbConvertBtn) hbConvertBtn.addEventListener('click', runHexBinaryConvert);
+
+        const hbResetBtn = $('#hbReset');
+        if (hbResetBtn) hbResetBtn.addEventListener('click', resetHexBinaryConverter);
+
+        const hbSwapBtn = $('#hbSwapBtn');
+        if (hbSwapBtn) hbSwapBtn.addEventListener('click', swapHexBinaryConverter);
+
+        const hbFromSel = $('#hbFrom');
+        if (hbFromSel) hbFromSel.addEventListener('change', runHexBinaryConvert);
+
+        const hbToSel = $('#hbTo');
+        if (hbToSel) hbToSel.addEventListener('change', runHexBinaryConvert);
+
+        const hbGroupSel = $('#hbGroup');
+        if (hbGroupSel) hbGroupSel.addEventListener('change', runHexBinaryConvert);
+
+        const hbInput = $('#hbInput');
+        if (hbInput) {
+            hbInput.addEventListener('input', runHexBinaryConvert);
+            hbInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); runHexBinaryConvert(); }
+            });
+        }
+
+        /* ---- Converter panel (multi-format) ---- */
         $('#cvMethod').addEventListener('change', refreshCodecReference);
 
         $('#cvEncode').addEventListener('click', function () { runCodec('encode'); });
@@ -4957,6 +6576,22 @@ ul.list b,ul.list strong{color:var(--base-content)}
         /* Converter reference card */
         refreshCodecReference();
 
+        /* ---- Epoch clock bootstrap ---- */
+        updateEpochClock();
+        scheduleEpochTick();
+
+        /* ---- Epoch code snippets ---- */
+        renderEpochCodeSnippets();
+
+        /* ---- Initial timestamp conversion demo ---- */
+        tsDecimalToHex();
+
+        /* ---- Initial decimal → hex conversion demo (7562 → 1D8A) ---- */
+        runDecimalToHex();
+
+        /* ---- Initial hex → binary conversion demo (1D8A → 1110110001010) ---- */
+        runHexBinaryConvert();
+
         /* Build the live capability matrix */
         buildCapabilityMatrix();
 
@@ -4964,6 +6599,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
             'color:#67cba0;font-weight:bold;');
         console.log('SubtleCrypto.supports() available: ' + hasSupportsAPI());
         console.log('Converter codecs loaded: ' + CODECS.length);
+        console.log('Epoch clock live · hex timestamp converter ready · decimal→hex converter ready · hex→binary converter ready');
     }
 
     if (document.readyState === 'loading') {
@@ -4975,7 +6611,7 @@ ul.list b,ul.list strong{color:var(--base-content)}
 })();
 </script>
 
-   <script>
+<script>
 // Disable right-click
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 
@@ -5075,6 +6711,5 @@ if (document.addEventListener) {
 }
 </script>
 
-   
 </body>
 </html>
